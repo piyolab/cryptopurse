@@ -148,6 +148,10 @@ function registerCallbacks() {
 		document.execCommand("Copy");
 	});
 
+	$('#to-address').on('focus', function() {
+		$(this).select();
+	})
+
 	$('#send-eth-to-confirm-btn').on('click', function() {
 		updateSendEthModalContent();
 	});
