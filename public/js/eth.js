@@ -1,4 +1,3 @@
-console.log(ethereumjs);
 const Wallet = ethereumjs.Wallet;
 const EthUtil = ethereumjs.Util;
 const EthTx = ethereumjs.Tx;
@@ -146,6 +145,13 @@ function registerCallbacks() {
 	$('#my-address-copy-btn').on('click', function() {
 		$('#my-address').select();
 		document.execCommand("Copy");
+	});
+
+	$('#my-address-qr-btn').on('click', function() {
+		const fromAddress = wallet.getAddressString();
+		$('#qrcode-modal-msg').text(fromAddress);
+		$('#qrcode').empty();
+		new QRCode(document.getElementById("qrcode"), fromAddress);
 	});
 
 	$('#to-address').on('focus', function() {

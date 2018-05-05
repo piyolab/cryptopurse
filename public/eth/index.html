@@ -48,6 +48,7 @@
             <input type="text" class="form-control" id="my-address" readonly="">
             <div class="input-group-append">
               <button class="btn btn-outline-secondary" type="button" id="my-address-copy-btn">copy</button>
+              <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#qrcode-modal" id="my-address-qr-btn">QR</button>
             </div>
           </div>
 
@@ -71,12 +72,12 @@
       </div>
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="send-eth-confirm-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- Send Ether Confirmation Modal -->
+    <div class="modal fade" id="send-eth-confirm-modal" tabindex="-1" role="dialog" aria-labelledby="send-eth-confirm-modal-label" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">
+            <h5 class="modal-title" id="send-eth-confirm-modal-label">
               <span id="send-eth-confirm-modal-title"></span>
             </h5>
           </div>
@@ -91,11 +92,32 @@
       </div>
     </div>
 
+    <!-- QR -->
+    <div class="modal fade" id="qrcode-modal" tabindex="-1" role="dialog" aria-labelledby="qrcode-modal-label" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="qrcode-modal-label">
+              My Purse QR Code
+            </h5>
+          </div>
+          <div class="modal-body">
+            <center><span id="qrcode-modal-msg" style="font-family: monospace;"></span></center>
+            <center><div id="qrcode"></div></center>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">DISMISS</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <script src="/js/qrcode.min.js"></script>
     <script src="/js/eth.js"></script>
     <script src="/js/main.js"></script>
   </body>
