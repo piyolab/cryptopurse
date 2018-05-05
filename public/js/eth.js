@@ -115,14 +115,43 @@ function sendEther() {
 	});
 }
 
+function updateSendEthModalContent() {
+	var msg = null;
+	var title = null;
+	const toAddress = $('#to-address').val();
+	const ethAmount = $('#to-amount').val();
+	const weiAmount = web3.toWei(ethAmount, 'ether');
+
+	if(!EthUtil.isValidAddress(toAddress) || weiAmount <=  0) {
+		$('#send-eth-btn').hide();
+		title = "Error";
+		msg = "Enter a valid address and amount.";
+	} else {
+		$('#send-eth-btn').show();
+		title = "Are you sure?";
+		msg = "You are about to send " + 
+				$('#to-amount').val() +
+				" ETH to " +
+				$('#to-address').val();
+	}
+	$('#send-eth-confirm-modal-title').text(title);
+	$('#send-eth-confirm-modal-msg').text(msg);
+}
+
 function registerCallbacks() {
 	$('#my-address-balance-reload-btn').on('click', function() {
 		showMyBalance();
 	});
+
 	$('#my-address-copy-btn').on('click', function() {
 		$('#my-address').select();
 		document.execCommand("Copy");
 	});
+
+	$('#send-eth-to-confirm-btn').on('click', function() {
+		updateSendEthModalContent();
+	});
+
 	$('#send-eth-btn').on('click', function() {
 		sendEther();
 	});
