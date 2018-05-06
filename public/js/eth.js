@@ -76,17 +76,18 @@ function createTx(nonce, to, gasPrice, gasLimit, value) {
 	return tx;
 }
 
-function sendRawTx(rawTx) {
+function sendRawTx(rawTx, callback) {
 	web3.eth.sendRawTransaction(rawTx, function(error, result){
 		if (error) {
 			alert(ALERT_MESSAGE);
 		} else {
 			console.log(result);
+			callback(result);
 		}
 	});
 }
 
-function sendEther() {
+function sendEther(callback) {
 	const fromAddress = wallet.getAddressString();
 	const toAddress = $('#to-address').val();
 	const ethAmount = $('#to-amount').val();
@@ -110,7 +111,9 @@ function sendEther() {
 		tx.sign(EthUtil.toBuffer(wallet.getPrivateKeyString()));
 		const serializedTx = tx.serialize();
 		const rawTx = '0x' + serializedTx.toString('hex');
-		sendRawTx(rawTx);
+		sendRawTx(rawTx, function(result) {
+			callback(result);
+		});
 	});
 }
 
@@ -143,8 +146,8 @@ function registerCallbacks() {
 	});
 
 	$('#my-address-copy-btn').on('click', function() {
-		$('#my-address').select();
-		document.execCommand("Copy");
+		const fromAddress = wallet.getAddressString();
+		Clipboard.copy(fromAddress);
 	});
 
 	$('#my-address-qr-btn').on('click', function() {
@@ -163,7 +166,17 @@ function registerCallbacks() {
 	});
 
 	$('#send-eth-btn').on('click', function() {
-		sendEther();
+		$('#send-eth-confirm-modal').modal('toggle');
+		sendEther(function(result) {
+			const url = 'https://etherscan.io/tx/' + result;
+			const e = $("<a></a>", {
+  				href: url,
+  				target: "_blank",
+  				text: "Check the tx in etherscan.io"
+			});
+			$('#tx-result-modal-msg').html(e);
+			$('#tx-result-modal').modal('toggle');
+		});
 	});
 }
 
