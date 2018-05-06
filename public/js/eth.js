@@ -155,6 +155,13 @@ function tick() {
     canvasElement.height = video.videoHeight;
     canvasElement.width = video.videoWidth;
     canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
+
+    var imageData = canvas.getImageData(0, 0, canvasElement.width, canvasElement.height);
+    var code = jsQR(imageData.data, imageData.width, imageData.height);
+    if (code && readingQRCode) {
+      $('#qrcode-reader-modal').modal('hide');
+      $("#to-address").val(code.data);
+    }
   }
   if (readingQRCode) {
     requestAnimationFrame(tick);
