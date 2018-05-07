@@ -158,9 +158,14 @@ function tick() {
 
     var imageData = canvas.getImageData(0, 0, canvasElement.width, canvasElement.height);
     var code = jsQR(imageData.data, imageData.width, imageData.height);
-    if (code && readingQRCode) {
-      $('#qrcode-reader-modal').modal('hide');
-      $("#to-address").val(code.data);
+    if (code != null && readingQRCode) {
+      if (web3.isAddress(code.data)) {
+        $('#qrcode-reader-modal').modal('hide');
+        $("#to-address").val(code.data);
+      } else {
+        console.error("Invalid data: " + code.data);
+      }
+
     }
   }
   if (readingQRCode) {
