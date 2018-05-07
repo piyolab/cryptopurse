@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "cryptopurseapp"
+    "default": "cryptopurseapp",
+    "staging": "cryptopurse-staging"
   }
 }
