@@ -11,6 +11,11 @@ const ALERT_MESSAGE = "Something Wrong ><..."
 var web3 = null;
 var wallet = null;
 
+var video = document.createElement("video");
+var canvasElement = document.getElementById("reader-camera-preview");
+var canvas = canvasElement.getContext("2d");
+var readingQRCode = false;
+
 function initWeb3() {
 	web3 = new Web3(new Web3.providers.HttpProvider(HTTP_PROVIDER));
 }
@@ -140,6 +145,34 @@ function updateSendEthModalContent() {
 	$('#send-eth-confirm-modal-msg').text(msg);
 }
 
+function tick() {
+  loadingMessageLabel = $("#reader-loading-message")
+  loadingMessageLabel.text("⌛ Loading video...");
+  if (video.readyState === video.HAVE_ENOUGH_DATA) {
+    loadingMessageLabel.hide();
+    canvasElement.hidden = false;
+
+    canvasElement.height = video.videoHeight;
+    canvasElement.width = video.videoWidth;
+    canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
+
+    var imageData = canvas.getImageData(0, 0, canvasElement.width, canvasElement.height);
+    var code = jsQR(imageData.data, imageData.width, imageData.height);
+    if (code != null && readingQRCode) {
+      if (web3.isAddress(code.data)) {
+        $('#qrcode-reader-modal').modal('hide');
+        $("#to-address").val(code.data);
+      } else {
+        console.error("Invalid data: " + code.data);
+      }
+
+    }
+  }
+  if (readingQRCode) {
+    requestAnimationFrame(tick);
+  }
+}
+
 function registerCallbacks() {
 	$('#my-address-balance-reload-btn').on('click', function() {
 		showMyBalance();
@@ -178,6 +211,31 @@ function registerCallbacks() {
 			$('#tx-result-modal').modal('toggle');
 		});
 	});
+
+  $('#qrcode-reader-modal').on('show.bs.modal', function() {
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }).then(function(stream) {
+      video.srcObject = stream;
+      video.setAttribute("playsinline", true); // required to tell iOS safari we don't want fullscreen
+      video.play();
+      readingQRCode = true;
+      requestAnimationFrame(tick);
+    }).catch(function(e) {
+      $("#reader-loading-message").text("🙅‍♀️" + e.name);
+    });
+  });
+
+  $('#qrcode-reader-modal').on('hide.bs.modal', function (e) {
+    if (video.srcObject != null) {
+      readingQRCode = false;
+      video.srcObject.getTracks()[0].stop();
+    }
+  });
+}
+
+function hideDisabledFeatures() {
+  if (navigator.mediaDevices.getUserMedia == undefined) {
+    $("#to-address-read-from-camera").hide();
+  }
 }
 
 $(document).ready(function(){
@@ -186,5 +244,6 @@ $(document).ready(function(){
 	showMyAddress();
 	registerCallbacks();
 	showMyBalance();
+  hideDisabledFeatures();
 });
 
