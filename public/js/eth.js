@@ -233,7 +233,7 @@ function registerCallbacks() {
 }
 
 function hideDisabledFeatures() {
-  if (navigator.mediaDevices.getUserMedia == undefined) {
+  if (navigator.mediaDevices == undefined || navigator.mediaDevices.getUserMedia == undefined) {
     $("#to-address-read-from-camera").hide();
   }
 }
