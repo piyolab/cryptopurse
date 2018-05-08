@@ -238,12 +238,35 @@ function hideDisabledFeatures() {
   }
 }
 
+function getUrlParam(key) {
+    key = key.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + key + '=([^&#]*)');
+    var results = regex.exec(location.search);
+    return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' '));
+};
+
+function getUrlParams(callback) {
+	var params = {};
+	params.to = getUrlParam('to');
+	params.value = getUrlParam('value');
+	console.log(params);
+	callback(params);
+}
+
+function processUrlParams(params) {
+	if (params.to) $('#to-address').val(params.to);
+	if (params.value) $('#to-amount').val(params.value);
+}
+
 $(document).ready(function(){
 	initWeb3();
 	recoverWallet();
 	showMyAddress();
 	registerCallbacks();
 	showMyBalance();
+	getUrlParams(function(params) {
+		processUrlParams(params);
+	});
   hideDisabledFeatures();
 });
 
