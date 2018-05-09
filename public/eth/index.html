@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <!-- Global site tag (gtag.js) - Google Analytics-->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-118763672-1"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'UA-118763672-1');
     </script>
     <meta charset="utf-8">
@@ -29,138 +28,116 @@
     </style>
   </head>
   <body>
-    <nav class="navbar navbar-dark bg-primary">
-      <a class="navbar-brand" href="#">Ethereum Purse - CryptoPurse.app</a>
-    </nav>
+    <nav class="navbar navbar-dark bg-primary"><a class="navbar-brand" href="#">Ethereum Purse - CryptoPurse.app</a></nav>
     <div class="container">
       <div>Super Simple Ethereum wallet. version 0.0.3</div>
-
       <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <p><strong>Warning/Disclaimer</strong></p>
         <p>Don't put a large amount of Ether. Treat this wallet as your small pocket purse.</p>
         <p>We do not keep your private key. Your private key is stored in your browser's local storage.</p>
         <p>If your browser's local storage is deleted, your wallet won't be accessible.</p>
         <p>We are not responsible for any loss.</p>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
       </div>
-
       <div class="card mb-3">
         <div class="card-body">
           <h5 class="card-title">My Purse (Ethereum Wallet)</h5>
-          <h6 class="card-subtitle mb-2 text-muted">
-            Balance: <span id="my-address-balance"></span> ETH 
-            <button type="button" class="btn btn-outline-secondary btn-sm" id="my-address-balance-reload-btn">reload</button>
+          <h6 class="card-subtitle mb-2 text-muted">Balance:<span id="my-address-balance"></span> ETH
+            <button class="btn btn-outline-secondary btn-sm" id="my-address-balance-reload-btn" type="button">reload</button>
           </h6>
           <div class="input-group mb-3">
-            <input type="text" class="form-control" id="my-address" readonly="">
+            <input class="form-control" id="my-address" type="text" readonly="">
             <div class="input-group-append">
-              <button class="btn btn-outline-secondary" type="button" id="my-address-copy-btn">
-                <image src="/images/ui/copy.png" width="18px" style="margin-bottom:2px;">
+              <button class="btn btn-outline-secondary" id="my-address-copy-btn" type="button">
+                <image src="/images/ui/copy.png" width="18px" style="margin-bottom:2px;"></image>
               </button>
-              <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#qrcode-modal" id="my-address-qr-btn">
-                <image src="/images/ui/qr_code.png" width="18px" style="margin-bottom:2px;">
+              <button class="btn btn-outline-secondary" id="my-address-qr-btn" type="button" data-toggle="modal" data-target="#qrcode-modal">
+                <image src="/images/ui/qr_code.png" width="18px" style="margin-bottom:2px;"></image>
               </button>
             </div>
           </div>
         </div>
       </div>
-
       <div class="card mb-3">
         <div class="card-body">
           <h5 class="card-title">Send ETH</h5>
           <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Recipient's address" id="to-address">
+            <input class="form-control" id="to-address" type="text" placeholder="Recipient's address">
             <div class="input-group-append" id="to-address-read-from-camera">
-              <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#qrcode-reader-modal" id="to-address-qr-btn">📷</button>
+              <button class="btn btn-outline-secondary" id="to-address-qr-btn" type="button" data-toggle="modal" data-target="#qrcode-reader-modal">📷</button>
             </div>
           </div>
           <div class="input-group mb-3">
-            <input type="number" class="form-control" placeholder="0" id="to-amount" min="0" step="0.001">
-            <div class="input-group-append">
-              <span class="input-group-text" id="basic-addon2" readonly>ETH</span>
-            </div>
+            <input class="form-control" id="to-amount" type="number" placeholder="0" min="0" step="0.001">
+            <div class="input-group-append"><span class="input-group-text" id="basic-addon2" readonly="">ETH</span></div>
           </div>
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#send-eth-confirm-modal" id="send-eth-to-confirm-btn">Send Ether</button>
+          <button class="btn btn-primary" id="send-eth-to-confirm-btn" type="button" data-toggle="modal" data-target="#send-eth-confirm-modal">Send Ether</button>
         </div>
       </div>
     </div>
-
-    <!-- Send Ether Confirmation Modal -->
+    <!-- Send Ether Confirmation Modal-->
     <div class="modal fade" id="send-eth-confirm-modal" tabindex="-1" role="dialog" aria-labelledby="send-eth-confirm-modal-label" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="send-eth-confirm-modal-label">
-              <span id="send-eth-confirm-modal-title"></span>
-            </h5>
+            <h5 class="modal-title" id="send-eth-confirm-modal-label"><span id="send-eth-confirm-modal-title"></span></h5>
           </div>
-          <div class="modal-body">
-            <span id="send-eth-confirm-modal-msg"></span>
-          </div>
+          <div class="modal-body"><span id="send-eth-confirm-modal-msg"></span></div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCEL</button>
-            <button type="button" class="btn btn-primary" id="send-eth-btn">Send Ether</button>
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">CANCEL</button>
+            <button class="btn btn-primary" id="send-eth-btn" type="button">Send Ether</button>
           </div>
         </div>
       </div>
     </div>
-
-    <!-- QR -->
+    <!-- QR-->
     <div class="modal fade" id="qrcode-modal" tabindex="-1" role="dialog" aria-labelledby="qrcode-modal-label" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="qrcode-modal-label">
-              My Purse QR Code
-            </h5>
+            <h5 class="modal-title" id="qrcode-modal-label">My Purse QR Code</h5>
           </div>
           <div class="modal-body">
             <center><span id="qrcode-modal-msg" style="font-family: monospace;"></span></center>
-            <center><div id="qrcode"></div></center>
+            <center>
+              <div id="qrcode"></div>
+            </center>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">DISMISS</button>
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">DISMISS</button>
           </div>
         </div>
       </div>
     </div>
-
-    <!-- RESULT -->
+    <!-- RESULT-->
     <div class="modal fade" id="tx-result-modal" tabindex="-1" role="dialog" aria-labelledby="tx-result-modal-label" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="tx-result-modal-label">
-              Transaction Result
-            </h5>
+            <h5 class="modal-title" id="tx-result-modal-label">Transaction Result</h5>
           </div>
           <div class="modal-body">
             <center><span id="tx-result-modal-msg"></span></center>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">DISMISS</button>
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">DISMISS</button>
           </div>
         </div>
       </div>
     </div>
-
-    <!-- Reader QR -->
+    <!-- Reader QR-->
     <div class="modal fade" id="qrcode-reader-modal" tabindex="-1" role="dialog" aria-labelledby="qrcode-reader-modal-label" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="qrcode-reader-modal-label">
-              Read QR Code
-            </h5>
+            <h5 class="modal-title" id="qrcode-reader-modal-label">Read QR Code</h5>
           </div>
           <div class="modal-body">
             <div id="reader-loading-message">🎥 Unable to access video stream (please make sure you have a webcam enabled)</div>
-            <canvas id="reader-camera-preview" hidden></canvas>
+            <canvas id="reader-camera-preview" hidden=""></canvas>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">DISMISS</button>
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">DISMISS</button>
           </div>
         </div>
       </div>
