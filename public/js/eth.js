@@ -219,9 +219,10 @@ function registerCallbacks() {
 		$(this).select();
 	});
 
-	$('#keystore-outpuy-copy-btn').on('click', function() {
-		const keystore = $('#keystore-output').val();
+	$('#keystore-output-copy-btn').on('click', function() {
 		$('#keystore-output').select();
+		document.execCommand("Copy");
+		const keystore = $('#keystore-output').val();
 		Clipboard.copy(keystore);
 	});
 
