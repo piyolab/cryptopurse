@@ -34,6 +34,7 @@ function saveWalletInfo(wallet) {
 
 function generateWallet() {
 	wallet = Wallet.generate();
+	saveWalletInfo(wallet);
 }
 
 function recoverWallet() {
