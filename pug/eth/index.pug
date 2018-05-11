@@ -35,6 +35,7 @@ html(lang='en')
       #navbarToggleMenu.collapse
         .bg-dark.p-4
           p.text-white Version 0.0.3
+          button.btn.btn-outline-danger.btn-sm.btn-block(type='button', data-toggle='modal', data-target='#export-wallet-modal') Export wallet
       div Super Simple Ethereum wallet.
       .alert.alert-danger.alert-dismissible.fade.show(role='alert')
         p
@@ -123,6 +124,34 @@ html(lang='en')
             canvas#reader-camera-preview(hidden='')
           .modal-footer
             button.btn.btn-secondary(type='button', data-dismiss='modal') DISMISS
+    // Menu Export Wallet Modal
+    #export-wallet-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='export-wallet-modal-label', aria-hidden='true')
+      .modal-dialog(role='document')
+        .modal-content
+          .modal-header
+            h5#export-wallet-modal-label.modal-title
+              p Export wallet
+          .modal-body
+            p Enter a password to export your Ethereum wallet. You need the password when you import your wallet again.
+            .form-group
+              input#export-wallet-password.form-control(type='password', placeholder='Password', data-toggle='tooltip', data-placement='top', title='Password needs to be 5 characters or longer. You can use 0-9, a-z, A-Z and symbols.')
+          .modal-footer
+            button.btn.btn-secondary(type='button', data-dismiss='modal') CANCEL
+            button#export-wallet-btn.btn.btn-primary(type='button') Export wallet
+    // Menu Keystore Output Modal
+    #keystore-output-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='keystore-output-modal-label', aria-hidden='true')
+      .modal-dialog(role='document')
+        .modal-content
+          .modal-header
+            h5#keystore-output-modal-label.modal-title
+              p Your Keystore
+          .modal-body
+            p Please keep your wallet keystore in a safe place.
+            .form-group
+              textarea#keystore-output.form-control(rows='3', readonly)
+              button#keystore-outpuy-copy-btn.btn.btn-primary.btn-block(type='button') Copy keystore
+          .modal-footer
+            button.btn.btn-primary(type='button', data-dismiss='modal') OK
     link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css', integrity='sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB', crossorigin='anonymous')
     script(src='https://code.jquery.com/jquery-3.3.1.slim.min.js', integrity='sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo', crossorigin='anonymous')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js', integrity='sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49', crossorigin='anonymous')

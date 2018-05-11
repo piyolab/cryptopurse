@@ -177,6 +177,27 @@ function tick() {
   }
 }
 
+function isValidPassword(password) {
+	const regex = /^[\x21-\x7e]{5,}$/i;
+	if (password.match(regex)) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+function exportWallet() {
+	const password = $('#export-wallet-password').val();
+	if (!isValidPassword(password)) {
+		alert("Please enter a valid password.");
+		return;
+	}
+	const keystore = wallet.toV3String(password);
+	$('#keystore-output').val(keystore);
+	$('#export-wallet-modal').modal('toggle');
+	$('#keystore-output-modal').modal('toggle');
+}
+
 function registerCallbacks() {
 	$('#my-address-balance-reload-btn').on('click', function() {
 		showMyBalance();
@@ -198,6 +219,16 @@ function registerCallbacks() {
 		$(this).select();
 	})
 
+	$('#keystore-output').on('focus', function() {
+		$(this).select();
+	});
+
+	$('#keystore-outpuy-copy-btn').on('click', function() {
+		const keystore = $('#keystore-output').val();
+		$('#keystore-output').select();
+		Clipboard.copy(keystore);
+	});
+
 	$('#send-eth-to-confirm-btn').on('click', function() {
 		updateSendEthModalContent();
 	});
@@ -214,6 +245,10 @@ function registerCallbacks() {
 			$('#tx-result-modal-msg').html(e);
 			$('#tx-result-modal').modal('toggle');
 		});
+	});
+
+	$('#export-wallet-btn').on('click', function() {
+		exportWallet();
 	});
 
   $('#qrcode-reader-modal').on('show.bs.modal', function() {
@@ -234,6 +269,8 @@ function registerCallbacks() {
       video.srcObject.getTracks()[0].stop();
     }
   });
+
+
 }
 
 function hideDisabledFeatures() {
@@ -280,5 +317,6 @@ $(document).ready(function(){
 	registerCallbacks();
 	showMyBalance();
   hideDisabledFeatures();
+  $('[data-toggle="tooltip"]').tooltip()
 });
 
