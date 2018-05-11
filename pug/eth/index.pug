@@ -10,10 +10,10 @@ html(lang='en')
       gtag('config', 'UA-118763672-1');
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
-    link(rel='manifest', href='/manifest.json')
-    meta(name='apple-mobile-web-app-capable', content='yes')
-    meta(name='apple-mobile-web-app-status-bar-style', content='black')
-    meta(name='apple-mobile-web-app-title', content='CryptoPurse')
+    script.
+      if(!/iP(hone|(o|a)d)/.test(navigator.userAgent)){
+        document.write('<link rel="manifest" href="manifest.json"/>');
+      };
     link(rel='apple-touch-icon', href='/images/icons/icon-152x152.png')
     title Ethereum - CryptoPurse.app
     script(src='/js/ethereumjs-tx-1.3.3.min.js')
