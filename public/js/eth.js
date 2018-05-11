@@ -173,25 +173,10 @@ function tick() {
   }
 }
 
-function isValidPassword(password) {
-	const regex = /^[\x21-\x7e]{5,}$/i;
-	if (password.match(regex)) {
-		return true;
-	} else {
-		return false;
-	}
-}
-
 function exportWallet() {
-	const password = $('#export-wallet-password').val();
-	if (!isValidPassword(password)) {
-		alert("Please enter a valid password.");
-		return;
-	}
-	const keystore = wallet.toV3String(password);
-	$('#keystore-output').val(keystore);
+	$('#privatekey-output').val(wallet.getPrivateKeyString());
 	$('#export-wallet-modal').modal('toggle');
-	$('#keystore-output-modal').modal('toggle');
+	$('#privatekey-output-modal').modal('toggle');
 }
 
 function registerCallbacks() {
@@ -215,15 +200,14 @@ function registerCallbacks() {
 		$(this).select();
 	})
 
-	$('#keystore-output').on('focus', function() {
+	$('#privatekey-output').on('focus', function() {
 		$(this).select();
 	});
 
-	$('#keystore-output-copy-btn').on('click', function() {
-		$('#keystore-output').select();
-		document.execCommand("Copy");
-		const keystore = $('#keystore-output').val();
-		Clipboard.copy(keystore);
+	$('#privatekey-output-copy-btn').on('click', function() {
+		console.log("hoge");
+		$('#privatekey-output').select();
+		Clipboard.copyOnModal(wallet.getPrivateKeyString(), $('#privatekey-output-modal').get(0));
 	});
 
 	$('#send-eth-to-confirm-btn').on('click', function() {

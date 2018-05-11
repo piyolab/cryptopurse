@@ -130,26 +130,24 @@ html(lang='en')
         .modal-content
           .modal-header
             h5#export-wallet-modal-label.modal-title
-              p Export wallet
+              p Export a private key
           .modal-body
-            p Enter a password to export your Ethereum wallet. You need the password when you import your wallet again.
-            .form-group
-              input#export-wallet-password.form-control(type='password', placeholder='Password', data-toggle='tooltip', data-placement='top', title='Password needs to be 5 characters or longer. You can use 0-9, a-z, A-Z and symbols.')
+            p Please keep your private key in a safe place.
           .modal-footer
             button.btn.btn-secondary(type='button', data-dismiss='modal') CANCEL
-            button#export-wallet-btn.btn.btn-primary(type='button') Export wallet
-    // Menu Keystore Output Modal
-    #keystore-output-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='keystore-output-modal-label', aria-hidden='true')
+            button#export-wallet-btn.btn.btn-primary(type='button') Export a private key
+    // Menu PrivateKey Output Modal
+    #privatekey-output-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='privatekey-output-modal-label', aria-hidden='true')
       .modal-dialog(role='document')
         .modal-content
           .modal-header
-            h5#keystore-output-modal-label.modal-title
-              p Your Keystore
+            h5#privatekey-output-modal-label.modal-title
+              p Your private key
           .modal-body
-            p Please keep your wallet keystore in a safe place.
+            p Please keep your private key in a safe place.
             .form-group
-              textarea#keystore-output.form-control(rows='3', readonly)
-              button#keystore-output-copy-btn.btn.btn-primary.btn-block(type='button') Copy keystore
+              input#privatekey-output.form-control(type='text', readonly)
+            button#privatekey-output-copy-btn.btn.btn-primary.btn-block(type='button') Copy
           .modal-footer
             button.btn.btn-primary(type='button', data-dismiss='modal') OK
     link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css', integrity='sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB', crossorigin='anonymous')

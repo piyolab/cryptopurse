@@ -12,6 +12,12 @@ window.Clipboard = (function(window, document, navigator) {
         document.body.appendChild(textArea);
     }
 
+    function createTextAreaOnModal(text, modal) {
+        textArea = document.createElement('textArea');
+        textArea.value = text;
+        modal.appendChild(textArea);
+    }
+
     function selectText() {
         var range,
             selection;
@@ -33,13 +39,26 @@ window.Clipboard = (function(window, document, navigator) {
         document.body.removeChild(textArea);
     }
 
+    function copyToClipboardOnModal(modal) {        
+        document.execCommand('copy');
+        modal.removeChild(textArea);
+    }
+
+
     copy = function(text) {
         createTextArea(text);
         selectText();
         copyToClipboard();
     };
 
+    copyOnModal = function(text, modal) {
+        createTextAreaOnModal(text, modal);
+        selectText();
+        copyToClipboardOnModal(modal);
+    };
+
     return {
-        copy: copy
+        copy: copy,
+        copyOnModal: copyOnModal
     };
 })(window, document, navigator);
