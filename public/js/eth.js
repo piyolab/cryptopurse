@@ -9,8 +9,15 @@ const ETH_GAS_LIMIT = 21000;
 const ETH_GAS_PRICE = 20000000000;
 const HTTP_PROVIDERS = [
 	'https://mainnet.infura.io',
+	'',
 	'https://ropsten.infura.io'
+];
+const ETHERSCAN_TX_URLS = [
+	'https://etherscan.io/tx/',
+	'',
+	'https://ropsten.etherscan.io/tx/'
 ]
+var chainId = 1;
 
 const ALERT_MESSAGE = "Something Wrong ><..."
 var web3 = null;
@@ -67,6 +74,7 @@ function getHexNonce(address, callback) {
 	web3.eth.getTransactionCount(address, function(error, result){
 		if (error) {
 			alert(ALERT_MESSAGE);
+			console.error(error);
 		} else {
 			const hexNonce = web3.toHex(result);
 			callback(hexNonce);
@@ -81,9 +89,11 @@ function createTx(nonce, to, gasPrice, gasLimit, value) {
 		gasPrice: gasPrice,
 		gasLimit: gasLimit,
 		value: value,
-		chainId: 1
+		chainId: chainId
 	}
 	const tx = new EthTx(txParams);
+	console.log(txParams);
+	console.log(tx);
 	return tx;
 }
 
@@ -91,6 +101,7 @@ function sendRawTx(rawTx, callback) {
 	web3.eth.sendRawTransaction(rawTx, function(error, result){
 		if (error) {
 			alert(ALERT_MESSAGE);
+			console.error(error);
 		} else {
 			callback(result);
 		}
@@ -242,7 +253,8 @@ function registerCallbacks() {
 	$('#send-eth-btn').on('click', function() {
 		$('#send-eth-confirm-modal').modal('toggle');
 		sendEther(function(result) {
-			const url = 'https://etherscan.io/tx/' + result;
+			const baseUrl = ETHERSCAN_TX_URLS[chainId-1];
+			const url = baseUrl + result;
 			const e = $("<a></a>", {
   				href: url,
   				target: "_blank",
@@ -330,6 +342,7 @@ function getUrlParams(callback) {
 function processUrlParams(params) {
 	if (params.to) $('#to-address').val(params.to);
 	if (params.value) $('#to-amount').val(params.value);
+	if (params.network) chainId = parseInt(params.network);
 }
 
 function getHttpProvider(networkId) {
