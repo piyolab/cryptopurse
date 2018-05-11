@@ -25,12 +25,15 @@ function initWeb3(httpProvider) {
 	web3 = new Web3(new Web3.providers.HttpProvider(httpProvider));
 }
 
-function generateWallet() {
-	wallet = Wallet.generate();
+function saveWalletInfo(wallet) {
 	const address = wallet.getAddressString();
 	const privateKey = wallet.getPrivateKeyString();
 	localStorage.setItem(KEY_ETH_ADDRESS, address);
 	localStorage.setItem(KEY_ETH_PRIVATE_KEY, privateKey);
+}
+
+function generateWallet() {
+	wallet = Wallet.generate();
 }
 
 function recoverWallet() {
@@ -179,6 +182,27 @@ function exportWallet() {
 	$('#privatekey-output-modal').modal('toggle');
 }
 
+function importWallet() {
+	$('#import-wallet-modal').modal('toggle');
+	$('#privatekey-input-modal').modal('toggle');
+}	
+
+function importPrivateKey() {
+	const privateKey = $('#privatekey-input').val();
+	const privateKeyBuffer = EthUtil.toBuffer(privateKey);
+	try {
+		wallet = Wallet.fromPrivateKey(privateKeyBuffer);
+		saveWalletInfo(wallet);
+		showMyAddress();
+		$('#privatekey-input-modal').modal('toggle');
+		showMyBalance();
+	} catch (error) {
+		console.error(error);
+		alert(error);
+	}
+	
+}
+
 function registerCallbacks() {
 	$('#my-address-balance-reload-btn').on('click', function() {
 		showMyBalance();
@@ -229,6 +253,14 @@ function registerCallbacks() {
 
 	$('#export-wallet-btn').on('click', function() {
 		exportWallet();
+	});
+
+	$('#import-wallet-btn').on('click', function() {
+		importWallet();
+	});
+
+	$('#privatekey-input-btn').on('click', function() {
+		importPrivateKey();
 	});
 
   $('#qrcode-reader-modal').on('show.bs.modal', function() {
