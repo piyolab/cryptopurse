@@ -11,10 +11,11 @@
     </script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="manifest" href="/manifest.json">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="CryptoPurse">
+    <script>
+      if(!/iP(hone|(o|a)d)/.test(navigator.userAgent)){
+        document.write('<link rel="manifest" href="manifest.json"/>');
+      };
+    </script>
     <link rel="apple-touch-icon" href="/images/icons/icon-152x152.png">
     <title>Ethereum - CryptoPurse.app</title>
     <script src="/js/ethereumjs-tx-1.3.3.min.js"></script>
@@ -28,116 +29,213 @@
     </style>
   </head>
   <body>
-    <nav class="navbar navbar-dark bg-primary"><a class="navbar-brand" href="#">Ethereum Purse - CryptoPurse.app</a></nav>
+    <nav class="navbar navbar-dark bg-primary"><a class="navbar-brand" href="#">Ethereum Purse</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleMenu" aria-controls="navbarToggleMenu" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+    </nav>
     <div class="container">
-      <div>Super Simple Ethereum wallet. version 0.0.3</div>
-      <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <p><strong>Warning/Disclaimer</strong></p>
-        <p>Don't put a large amount of Ether. Treat this wallet as your small pocket purse.</p>
-        <p>We do not keep your private key. Your private key is stored in your browser's local storage.</p>
-        <p>If your browser's local storage is deleted, your wallet won't be accessible.</p>
-        <p>We are not responsible for any loss.</p>
-        <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+      <div class="collapse" id="navbarToggleMenu">
+        <div class="bg-dark p-4">
+          <p class="text-white"><span id="version"></span></p>
+          <button class="btn btn-outline-danger btn-sm btn-block" type="button" data-toggle="modal" data-target="#export-wallet-modal">Export wallet</button>
+          <button class="btn btn-outline-danger btn-sm btn-block" type="button" data-toggle="modal" data-target="#import-wallet-modal">Import wallet</button>
+        </div>
       </div>
-      <div class="card mb-3">
-        <div class="card-body">
-          <h5 class="card-title">My Purse (Ethereum Wallet)</h5>
-          <h6 class="card-subtitle mb-2 text-muted">Balance:<span id="my-address-balance"></span> ETH
-            <button class="btn btn-outline-secondary btn-sm" id="my-address-balance-reload-btn" type="button">reload</button>
-          </h6>
-          <div class="input-group mb-3">
-            <input class="form-control" id="my-address" type="text" readonly="">
-            <div class="input-group-append">
-              <button class="btn btn-outline-secondary" id="my-address-copy-btn" type="button">
-                <image src="/images/ui/copy.png" width="18px" style="margin-bottom:2px;"></image>
-              </button>
-              <button class="btn btn-outline-secondary" id="my-address-qr-btn" type="button" data-toggle="modal" data-target="#qrcode-modal">
-                <image src="/images/ui/qr_code.png" width="18px" style="margin-bottom:2px;"></image>
-              </button>
+      <div id="main-contents">
+        <div>Super Simple Ethereum wallet.</div>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <p><strong>Warning/Disclaimer</strong></p>
+          <p>Don't put a large amount of Ether. Treat this wallet as your small pocket purse.</p>
+          <p>We do not keep your private key. Your private key is stored in your browser's local storage.</p>
+          <p>If your browser's local storage is deleted, your wallet won't be accessible.</p>
+          <p>We are not responsible for any loss.</p>
+          <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+        </div>
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">My Purse (Ethereum Wallet)</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Balance:<span id="my-address-balance"></span> ETH
+              <button class="btn btn-outline-secondary btn-sm" id="my-address-balance-reload-btn" type="button">reload</button>
+            </h6>
+            <div class="input-group mb-3">
+              <input class="form-control" id="my-address" type="text" readonly="">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" id="my-address-copy-btn" type="button">
+                  <image src="/images/ui/copy.png" width="18px" style="margin-bottom:2px;"></image>
+                </button>
+                <button class="btn btn-outline-secondary" id="my-address-qr-btn" type="button" data-toggle="modal" data-target="#qrcode-modal">
+                  <image src="/images/ui/qr_code.png" width="18px" style="margin-bottom:2px;"></image>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Send ETH</h5>
+            <div class="input-group mb-3">
+              <input class="form-control" id="to-address" type="text" placeholder="Recipient's address">
+              <div class="input-group-append" id="to-address-read-from-camera">
+                <button class="btn btn-outline-secondary" id="to-address-qr-btn" type="button" data-toggle="modal" data-target="#qrcode-reader-modal">📷</button>
+              </div>
+            </div>
+            <div class="input-group mb-3">
+              <input class="form-control" id="to-amount" type="number" placeholder="0" min="0" step="0.001">
+              <div class="input-group-append"><span class="input-group-text" id="basic-addon2" readonly="">ETH</span></div>
+            </div>
+            <button class="btn btn-primary" id="send-eth-to-confirm-btn" type="button" data-toggle="modal" data-target="#send-eth-confirm-modal">Send Ether</button>
+          </div>
+        </div>
+      </div>
+      <!-- Send Ether Confirmation Modal-->
+      <div class="modal fade" id="send-eth-confirm-modal" tabindex="-1" role="dialog" aria-labelledby="send-eth-confirm-modal-label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="send-eth-confirm-modal-label"><span id="send-eth-confirm-modal-title"></span></h5>
+            </div>
+            <div class="modal-body"><span id="send-eth-confirm-modal-msg"></span></div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" type="button" data-dismiss="modal">CANCEL</button>
+              <button class="btn btn-primary" id="send-eth-btn" type="button">Send Ether</button>
             </div>
           </div>
         </div>
       </div>
-      <div class="card mb-3">
-        <div class="card-body">
-          <h5 class="card-title">Send ETH</h5>
-          <div class="input-group mb-3">
-            <input class="form-control" id="to-address" type="text" placeholder="Recipient's address">
-            <div class="input-group-append" id="to-address-read-from-camera">
-              <button class="btn btn-outline-secondary" id="to-address-qr-btn" type="button" data-toggle="modal" data-target="#qrcode-reader-modal">📷</button>
+      <!-- QR-->
+      <div class="modal fade" id="qrcode-modal" tabindex="-1" role="dialog" aria-labelledby="qrcode-modal-label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="qrcode-modal-label">My Purse QR Code</h5>
+            </div>
+            <div class="modal-body">
+              <center><span id="qrcode-modal-msg" style="font-family: monospace;"></span></center>
+              <center>
+                <div id="qrcode"></div>
+              </center>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" type="button" data-dismiss="modal">DISMISS</button>
             </div>
           </div>
-          <div class="input-group mb-3">
-            <input class="form-control" id="to-amount" type="number" placeholder="0" min="0" step="0.001">
-            <div class="input-group-append"><span class="input-group-text" id="basic-addon2" readonly="">ETH</span></div>
+        </div>
+      </div>
+      <!-- RESULT-->
+      <div class="modal fade" id="tx-result-modal" tabindex="-1" role="dialog" aria-labelledby="tx-result-modal-label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="tx-result-modal-label">Transaction Result</h5>
+            </div>
+            <div class="modal-body">
+              <center><span id="tx-result-modal-msg"></span></center>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" type="button" data-dismiss="modal">DISMISS</button>
+            </div>
           </div>
-          <button class="btn btn-primary" id="send-eth-to-confirm-btn" type="button" data-toggle="modal" data-target="#send-eth-confirm-modal">Send Ether</button>
+        </div>
+      </div>
+      <!-- Reader QR-->
+      <div class="modal fade" id="qrcode-reader-modal" tabindex="-1" role="dialog" aria-labelledby="qrcode-reader-modal-label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="qrcode-reader-modal-label">Read QR Code</h5>
+            </div>
+            <div class="modal-body">
+              <div id="reader-loading-message">🎥 Unable to access video stream (please make sure you have a webcam enabled)</div>
+              <canvas id="reader-camera-preview" hidden=""></canvas>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" type="button" data-dismiss="modal">DISMISS</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Menu Export Wallet Modal-->
+      <div class="modal fade" id="export-wallet-modal" tabindex="-1" role="dialog" aria-labelledby="export-wallet-modal-label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="export-wallet-modal-label">
+                <p>Export a private key</p>
+              </h5>
+            </div>
+            <div class="modal-body">
+              <p>Please keep your private key in a safe place.</p>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" type="button" data-dismiss="modal">CANCEL</button>
+              <button class="btn btn-primary" id="export-wallet-btn" type="button">Export a private key</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Menu PrivateKey Output Modal-->
+      <div class="modal fade" id="privatekey-output-modal" tabindex="-1" role="dialog" aria-labelledby="privatekey-output-modal-label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="privatekey-output-modal-label">
+                <p>Your private key</p>
+              </h5>
+            </div>
+            <div class="modal-body">
+              <p>Please keep your private key in a safe place.</p>
+              <div class="form-group">
+                <input class="form-control" id="privatekey-output" type="text" readonly>
+              </div>
+              <button class="btn btn-primary btn-block" id="privatekey-output-copy-btn" type="button">Copy</button>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-primary" type="button" data-dismiss="modal">OK</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <!-- Send Ether Confirmation Modal-->
-    <div class="modal fade" id="send-eth-confirm-modal" tabindex="-1" role="dialog" aria-labelledby="send-eth-confirm-modal-label" aria-hidden="true">
+    <div id="webview-warning">
+      <p>Please open CryptoPurse in browser.</p>
+      <p><a id="browser-link" href="#">Hello</a></p>
+    </div>
+    <!-- Menu Export Wallet Modal-->
+    <div class="modal fade" id="import-wallet-modal" tabindex="-1" role="dialog" aria-labelledby="import-wallet-modal-label" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="send-eth-confirm-modal-label"><span id="send-eth-confirm-modal-title"></span></h5>
+            <h5 class="modal-title" id="import-wallet-modal-label">
+              <p>Import a private key</p>
+            </h5>
           </div>
-          <div class="modal-body"><span id="send-eth-confirm-modal-msg"></span></div>
+          <div class="modal-body">
+            <p>Warning: Your existing wallet will be deleted right after you import a private key.</p>
+          </div>
           <div class="modal-footer">
             <button class="btn btn-secondary" type="button" data-dismiss="modal">CANCEL</button>
-            <button class="btn btn-primary" id="send-eth-btn" type="button">Send Ether</button>
+            <button class="btn btn-primary" id="import-wallet-btn" type="button">Import a private key</button>
           </div>
         </div>
       </div>
     </div>
-    <!-- QR-->
-    <div class="modal fade" id="qrcode-modal" tabindex="-1" role="dialog" aria-labelledby="qrcode-modal-label" aria-hidden="true">
+    <!-- Menu PrivateKey Input Modal-->
+    <div class="modal fade" id="privatekey-input-modal" tabindex="-1" role="dialog" aria-labelledby="privatekey-input-modal-label" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="qrcode-modal-label">My Purse QR Code</h5>
+            <h5 class="modal-title" id="privatekey-input-modal-label">
+              <p>Input a private key</p>
+            </h5>
           </div>
           <div class="modal-body">
-            <center><span id="qrcode-modal-msg" style="font-family: monospace;"></span></center>
-            <center>
-              <div id="qrcode"></div>
-            </center>
+            <p>Please input your private key.</p>
+            <div class="form-group">
+              <input class="form-control" id="privatekey-input" type="text">
+            </div>
           </div>
           <div class="modal-footer">
-            <button class="btn btn-secondary" type="button" data-dismiss="modal">DISMISS</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- RESULT-->
-    <div class="modal fade" id="tx-result-modal" tabindex="-1" role="dialog" aria-labelledby="tx-result-modal-label" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="tx-result-modal-label">Transaction Result</h5>
-          </div>
-          <div class="modal-body">
-            <center><span id="tx-result-modal-msg"></span></center>
-          </div>
-          <div class="modal-footer">
-            <button class="btn btn-secondary" type="button" data-dismiss="modal">DISMISS</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Reader QR-->
-    <div class="modal fade" id="qrcode-reader-modal" tabindex="-1" role="dialog" aria-labelledby="qrcode-reader-modal-label" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="qrcode-reader-modal-label">Read QR Code</h5>
-          </div>
-          <div class="modal-body">
-            <div id="reader-loading-message">🎥 Unable to access video stream (please make sure you have a webcam enabled)</div>
-            <canvas id="reader-camera-preview" hidden=""></canvas>
-          </div>
-          <div class="modal-footer">
-            <button class="btn btn-secondary" type="button" data-dismiss="modal">DISMISS</button>
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">CANCEL</button>
+            <button class="btn btn-primary" id="privatekey-input-btn" type="button">Import a private key</button>
           </div>
         </div>
       </div>
