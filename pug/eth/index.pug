@@ -60,7 +60,8 @@ html(lang='en')
               | Balance:
               span#my-address-balance
               |  ETH
-              button#my-address-balance-reload-btn.btn.btn-outline-secondary.btn-sm(type='button') reload
+              button#my-address-balance-reload-btn.btn.btn-sm(type='button', style='border:0;background:none;')
+                  image(src='/images/ui/reload.png', width='14px', style='margin-bottom:4px;')
             .input-group.mb-3
               input#my-address.form-control(type='text', readonly='')
               .input-group-append

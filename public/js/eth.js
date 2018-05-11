@@ -52,6 +52,7 @@ function showMyAddress() {
 
 function showMyBalance() {
 	const address = wallet.getAddressString();
+	$('#my-address-balance').text('...');
 	var balance = web3.eth.getBalance(address, function(error, result){
 		if (error) {
 			alert(ALERT_MESSAGE);
@@ -301,7 +302,7 @@ function hideDisabledFeatures() {
   if (navigator.mediaDevices == undefined || navigator.mediaDevices.getUserMedia == undefined) {
     $("#to-address-read-from-camera").hide();
   }
-  
+
   if (isWebView()) {
     $("#main-contents").hide();
     $('#navbarToggleButton').hide();
