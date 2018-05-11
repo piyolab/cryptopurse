@@ -6,7 +6,11 @@ const KEY_ETH_ADDRESS = "KEY_ETH_ADDRESS";
 const KEY_ETH_PRIVATE_KEY = "KEY_ETH_PRIVATE_KEY";
 const ETH_GAS_LIMIT = 21000;
 const ETH_GAS_PRICE = 20000000000;
-const HTTP_PROVIDER = 'https://mainnet.infura.io';
+const HTTP_PROVIDERS = [
+	'https://mainnet.infura.io',
+	'https://ropsten.infura.io'
+]
+
 const ALERT_MESSAGE = "Something Wrong ><..."
 var web3 = null;
 var wallet = null;
@@ -16,8 +20,8 @@ var canvasElement = document.getElementById("reader-camera-preview");
 var canvas = canvasElement.getContext("2d");
 var readingQRCode = false;
 
-function initWeb3() {
-	web3 = new Web3(new Web3.providers.HttpProvider(HTTP_PROVIDER));
+function initWeb3(httpProvider) {
+	web3 = new Web3(new Web3.providers.HttpProvider(httpProvider));
 }
 
 function generateWallet() {
@@ -249,6 +253,7 @@ function getUrlParams(callback) {
 	var params = {};
 	params.to = getUrlParam('to');
 	params.value = getUrlParam('value');
+	params.network = getUrlParam('network');
 	console.log(params);
 	callback(params);
 }
@@ -258,15 +263,22 @@ function processUrlParams(params) {
 	if (params.value) $('#to-amount').val(params.value);
 }
 
+function getHttpProvider(networkId) {
+	var httpProvider = HTTP_PROVIDERS[0];
+	if(networkId != null && networkId <= HTTP_PROVIDERS.length)
+		httpProvider = HTTP_PROVIDERS[networkId-1];
+	return httpProvider;
+}
+
 $(document).ready(function(){
-	initWeb3();
+	getUrlParams(function(params) {
+		processUrlParams(params);
+		initWeb3(getHttpProvider(params.network));
+	});
 	recoverWallet();
 	showMyAddress();
 	registerCallbacks();
 	showMyBalance();
-	getUrlParams(function(params) {
-		processUrlParams(params);
-	});
   hideDisabledFeatures();
 });
 
