@@ -285,9 +285,28 @@ function registerCallbacks() {
 
 }
 
+function isWebView() {
+  var standalone = window.navigator.standalone,
+    userAgent = window.navigator.userAgent.toLowerCase(),
+    safari = /safari/.test( userAgent ),
+    ios = /iphone|ipod|ipad/.test( userAgent );
+  if (ios && !standalone && !safari) {
+    return true
+  } else {
+    return false
+  }
+}
+
 function hideDisabledFeatures() {
   if (navigator.mediaDevices == undefined || navigator.mediaDevices.getUserMedia == undefined) {
     $("#to-address-read-from-camera").hide();
+  }
+  
+  if (isWebView()) {
+    $("#main-contents").hide();
+    $('#navbarToggleButton').hide();
+    $("#webview-warning").show();
+    $("#browser-link").text(location.href);
   }
 }
 

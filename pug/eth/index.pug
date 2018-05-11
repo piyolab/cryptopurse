@@ -24,11 +24,14 @@ html(lang='en')
       #reader-camera-preview {
         width: 100%;
       }
+      #webview-warning {
+        display: none;
+      }
   body
     nav.navbar.navbar-dark.bg-primary
       a.navbar-brand(href='#') Ethereum Purse
       //- Toggle Menu button
-      button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarToggleMenu', aria-controls='navbarToggleMenu', aria-expanded='false', aria-label='Toggle navigation')
+      button#navbarToggleButton.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarToggleMenu', aria-controls='navbarToggleMenu', aria-expanded='false', aria-label='Toggle navigation')
         span.navbar-toggler-icon
     .container
       //- Toggle Menu
@@ -38,120 +41,126 @@ html(lang='en')
             span#version
           button.btn.btn-outline-danger.btn-sm.btn-block(type='button', data-toggle='modal', data-target='#export-wallet-modal') Export wallet
           button.btn.btn-outline-danger.btn-sm.btn-block(type='button', data-toggle='modal', data-target='#import-wallet-modal') Import wallet
-      div Super Simple Ethereum wallet.
-      .alert.alert-danger.alert-dismissible.fade.show(role='alert')
+      #main-contents
+        div Super Simple Ethereum wallet.
+        .alert.alert-danger.alert-dismissible.fade.show(role='alert')
+          p
+            strong Warning/Disclaimer
+          p Don't put a large amount of Ether. Treat this wallet as your small pocket purse.
+          p
+            | We do not keep your private key. Your private key is stored in your browser's local storage.
+          p If your browser's local storage is deleted, your wallet won't be accessible.
+          p We are not responsible for any loss.
+          button.close(type='button', data-dismiss='alert', aria-label='Close')
+            span(aria-hidden='true') ×
+        .card.mb-3
+          .card-body
+            h5.card-title My Purse (Ethereum Wallet)
+            h6.card-subtitle.mb-2.text-muted
+              | Balance:
+              span#my-address-balance
+              |  ETH
+              button#my-address-balance-reload-btn.btn.btn-outline-secondary.btn-sm(type='button') reload
+            .input-group.mb-3
+              input#my-address.form-control(type='text', readonly='')
+              .input-group-append
+                button#my-address-copy-btn.btn.btn-outline-secondary(type='button')
+                  image(src='/images/ui/copy.png', width='18px', style='margin-bottom:2px;')
+                button#my-address-qr-btn.btn.btn-outline-secondary(type='button', data-toggle='modal', data-target='#qrcode-modal')
+                  image(src='/images/ui/qr_code.png', width='18px', style='margin-bottom:2px;')
+        .card.mb-3
+          .card-body
+            h5.card-title Send ETH
+            .input-group.mb-3
+              input#to-address.form-control(type='text', placeholder="Recipient's address")
+              #to-address-read-from-camera.input-group-append
+                button#to-address-qr-btn.btn.btn-outline-secondary(type='button', data-toggle='modal', data-target='#qrcode-reader-modal') 📷
+            .input-group.mb-3
+              input#to-amount.form-control(type='number', placeholder='0', min='0', step='0.001')
+              .input-group-append
+                span#basic-addon2.input-group-text(readonly='') ETH
+            button#send-eth-to-confirm-btn.btn.btn-primary(type='button', data-toggle='modal', data-target='#send-eth-confirm-modal') Send Ether
+      // Send Ether Confirmation Modal
+      #send-eth-confirm-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='send-eth-confirm-modal-label', aria-hidden='true')
+        .modal-dialog(role='document')
+          .modal-content
+            .modal-header
+              h5#send-eth-confirm-modal-label.modal-title
+                span#send-eth-confirm-modal-title
+            .modal-body
+              span#send-eth-confirm-modal-msg
+            .modal-footer
+              button.btn.btn-secondary(type='button', data-dismiss='modal') CANCEL
+              button#send-eth-btn.btn.btn-primary(type='button') Send Ether
+      // QR
+      #qrcode-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='qrcode-modal-label', aria-hidden='true')
+        .modal-dialog(role='document')
+          .modal-content
+            .modal-header
+              h5#qrcode-modal-label.modal-title
+                | My Purse QR Code
+            .modal-body
+              center
+                span#qrcode-modal-msg(style='font-family: monospace;')
+              center
+                #qrcode
+            .modal-footer
+              button.btn.btn-secondary(type='button', data-dismiss='modal') DISMISS
+      // RESULT
+      #tx-result-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='tx-result-modal-label', aria-hidden='true')
+        .modal-dialog(role='document')
+          .modal-content
+            .modal-header
+              h5#tx-result-modal-label.modal-title
+                | Transaction Result
+            .modal-body
+              center
+                span#tx-result-modal-msg
+            .modal-footer
+              button.btn.btn-secondary(type='button', data-dismiss='modal') DISMISS
+      // Reader QR
+      #qrcode-reader-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='qrcode-reader-modal-label', aria-hidden='true')
+        .modal-dialog(role='document')
+          .modal-content
+            .modal-header
+              h5#qrcode-reader-modal-label.modal-title
+                | Read QR Code
+            .modal-body
+              #reader-loading-message 🎥 Unable to access video stream (please make sure you have a webcam enabled)
+              canvas#reader-camera-preview(hidden='')
+            .modal-footer
+              button.btn.btn-secondary(type='button', data-dismiss='modal') DISMISS
+      // Menu Export Wallet Modal
+      #export-wallet-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='export-wallet-modal-label', aria-hidden='true')
+        .modal-dialog(role='document')
+          .modal-content
+            .modal-header
+              h5#export-wallet-modal-label.modal-title
+                p Export a private key
+            .modal-body
+              p Please keep your private key in a safe place.
+            .modal-footer
+              button.btn.btn-secondary(type='button', data-dismiss='modal') CANCEL
+              button#export-wallet-btn.btn.btn-primary(type='button') Export a private key
+      // Menu PrivateKey Output Modal
+      #privatekey-output-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='privatekey-output-modal-label', aria-hidden='true')
+        .modal-dialog(role='document')
+          .modal-content
+            .modal-header
+              h5#privatekey-output-modal-label.modal-title
+                p Your private key
+            .modal-body
+              p Please keep your private key in a safe place.
+              .form-group
+                input#privatekey-output.form-control(type='text', readonly)
+              button#privatekey-output-copy-btn.btn.btn-primary.btn-block(type='button') Copy
+            .modal-footer
+              button.btn.btn-primary(type='button', data-dismiss='modal') OK
+    #webview-warning
+      .container
+        p Please open CryptoPurse.app in browser.
         p
-          strong Warning/Disclaimer
-        p Don't put a large amount of Ether. Treat this wallet as your small pocket purse.
-        p
-          | We do not keep your private key. Your private key is stored in your browser's local storage.
-        p If your browser's local storage is deleted, your wallet won't be accessible.
-        p We are not responsible for any loss.
-        button.close(type='button', data-dismiss='alert', aria-label='Close')
-          span(aria-hidden='true') ×
-      .card.mb-3
-        .card-body
-          h5.card-title My Purse (Ethereum Wallet)
-          h6.card-subtitle.mb-2.text-muted
-            | Balance:
-            span#my-address-balance
-            |  ETH
-            button#my-address-balance-reload-btn.btn.btn-outline-secondary.btn-sm(type='button') reload
-          .input-group.mb-3
-            input#my-address.form-control(type='text', readonly='')
-            .input-group-append
-              button#my-address-copy-btn.btn.btn-outline-secondary(type='button')
-                image(src='/images/ui/copy.png', width='18px', style='margin-bottom:2px;')
-              button#my-address-qr-btn.btn.btn-outline-secondary(type='button', data-toggle='modal', data-target='#qrcode-modal')
-                image(src='/images/ui/qr_code.png', width='18px', style='margin-bottom:2px;')
-      .card.mb-3
-        .card-body
-          h5.card-title Send ETH
-          .input-group.mb-3
-            input#to-address.form-control(type='text', placeholder="Recipient's address")
-            #to-address-read-from-camera.input-group-append
-              button#to-address-qr-btn.btn.btn-outline-secondary(type='button', data-toggle='modal', data-target='#qrcode-reader-modal') 📷
-          .input-group.mb-3
-            input#to-amount.form-control(type='number', placeholder='0', min='0', step='0.001')
-            .input-group-append
-              span#basic-addon2.input-group-text(readonly='') ETH
-          button#send-eth-to-confirm-btn.btn.btn-primary(type='button', data-toggle='modal', data-target='#send-eth-confirm-modal') Send Ether
-    // Send Ether Confirmation Modal
-    #send-eth-confirm-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='send-eth-confirm-modal-label', aria-hidden='true')
-      .modal-dialog(role='document')
-        .modal-content
-          .modal-header
-            h5#send-eth-confirm-modal-label.modal-title
-              span#send-eth-confirm-modal-title
-          .modal-body
-            span#send-eth-confirm-modal-msg
-          .modal-footer
-            button.btn.btn-secondary(type='button', data-dismiss='modal') CANCEL
-            button#send-eth-btn.btn.btn-primary(type='button') Send Ether
-    // QR
-    #qrcode-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='qrcode-modal-label', aria-hidden='true')
-      .modal-dialog(role='document')
-        .modal-content
-          .modal-header
-            h5#qrcode-modal-label.modal-title
-              | My Purse QR Code
-          .modal-body
-            center
-              span#qrcode-modal-msg(style='font-family: monospace;')
-            center
-              #qrcode
-          .modal-footer
-            button.btn.btn-secondary(type='button', data-dismiss='modal') DISMISS
-    // RESULT
-    #tx-result-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='tx-result-modal-label', aria-hidden='true')
-      .modal-dialog(role='document')
-        .modal-content
-          .modal-header
-            h5#tx-result-modal-label.modal-title
-              | Transaction Result
-          .modal-body
-            center
-              span#tx-result-modal-msg
-          .modal-footer
-            button.btn.btn-secondary(type='button', data-dismiss='modal') DISMISS
-    // Reader QR
-    #qrcode-reader-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='qrcode-reader-modal-label', aria-hidden='true')
-      .modal-dialog(role='document')
-        .modal-content
-          .modal-header
-            h5#qrcode-reader-modal-label.modal-title
-              | Read QR Code
-          .modal-body
-            #reader-loading-message 🎥 Unable to access video stream (please make sure you have a webcam enabled)
-            canvas#reader-camera-preview(hidden='')
-          .modal-footer
-            button.btn.btn-secondary(type='button', data-dismiss='modal') DISMISS
-    // Menu Export Wallet Modal
-    #export-wallet-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='export-wallet-modal-label', aria-hidden='true')
-      .modal-dialog(role='document')
-        .modal-content
-          .modal-header
-            h5#export-wallet-modal-label.modal-title
-              p Export a private key
-          .modal-body
-            p Please keep your private key in a safe place.
-          .modal-footer
-            button.btn.btn-secondary(type='button', data-dismiss='modal') CANCEL
-            button#export-wallet-btn.btn.btn-primary(type='button') Export a private key
-    // Menu PrivateKey Output Modal
-    #privatekey-output-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='privatekey-output-modal-label', aria-hidden='true')
-      .modal-dialog(role='document')
-        .modal-content
-          .modal-header
-            h5#privatekey-output-modal-label.modal-title
-              p Your private key
-          .modal-body
-            p Please keep your private key in a safe place.
-            .form-group
-              input#privatekey-output.form-control(type='text', readonly)
-            button#privatekey-output-copy-btn.btn.btn-primary.btn-block(type='button') Copy
-          .modal-footer
-            button.btn.btn-primary(type='button', data-dismiss='modal') OK
+          a(id="browser-link", href="#") URL Place holder
     // Menu Export Wallet Modal
     #import-wallet-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='import-wallet-modal-label', aria-hidden='true')
       .modal-dialog(role='document')
