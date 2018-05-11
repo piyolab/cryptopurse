@@ -33,11 +33,10 @@ function generateWallet() {
 }
 
 function recoverWallet() {
-	const address = localStorage.getItem(KEY_ETH_ADDRESS);
-	if (address == null) {
+	const privateKey = localStorage.getItem(KEY_ETH_PRIVATE_KEY);
+	if (privateKey == null || privateKey == "") {
 		generateWallet();
 	} else {
-		const privateKey = localStorage.getItem(KEY_ETH_PRIVATE_KEY);
 		const privateKeyBuffer = EthUtil.toBuffer(privateKey);
 		wallet = Wallet.fromPrivateKey(privateKeyBuffer);
 	}
@@ -205,7 +204,6 @@ function registerCallbacks() {
 	});
 
 	$('#privatekey-output-copy-btn').on('click', function() {
-		console.log("hoge");
 		$('#privatekey-output').select();
 		Clipboard.copyOnModal(wallet.getPrivateKeyString(), $('#privatekey-output-modal').get(0));
 	});
