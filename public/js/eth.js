@@ -25,7 +25,6 @@ function initWeb3(httpProvider) {
 }
 
 function generateWallet() {
-	console.log("generate a new wallet.");
 	wallet = Wallet.generate();
 	const address = wallet.getAddressString();
 	const privateKey = wallet.getPrivateKeyString();
@@ -38,7 +37,6 @@ function recoverWallet() {
 	if (address == null) {
 		generateWallet();
 	} else {
-		console.log("recover an existing wallet.");
 		const privateKey = localStorage.getItem(KEY_ETH_PRIVATE_KEY);
 		const privateKeyBuffer = EthUtil.toBuffer(privateKey);
 		wallet = Wallet.fromPrivateKey(privateKeyBuffer);
@@ -50,7 +48,6 @@ function showMyAddress() {
 }
 
 function showMyBalance() {
-	console.log("showMyBalance");
 	const address = wallet.getAddressString();
 	var balance = web3.eth.getBalance(address, function(error, result){
 		if (error) {
@@ -90,7 +87,6 @@ function sendRawTx(rawTx, callback) {
 		if (error) {
 			alert(ALERT_MESSAGE);
 		} else {
-			console.log(result);
 			callback(result);
 		}
 	});
@@ -291,7 +287,6 @@ function getUrlParams(callback) {
 	params.to = getUrlParam('to');
 	params.value = getUrlParam('value');
 	params.network = getUrlParam('network');
-	console.log(params);
 	callback(params);
 }
 
