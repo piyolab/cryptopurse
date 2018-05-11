@@ -26,9 +26,16 @@ html(lang='en')
       }
   body
     nav.navbar.navbar-dark.bg-primary
-      a.navbar-brand(href='#') Ethereum Purse - CryptoPurse.app
+      a.navbar-brand(href='#') Ethereum Purse
+      //- Toggle Menu button
+      button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarToggleMenu', aria-controls='navbarToggleMenu', aria-expanded='false', aria-label='Toggle navigation')
+        span.navbar-toggler-icon
     .container
-      div Super Simple Ethereum wallet. version 0.0.3
+      //- Toggle Menu
+      #navbarToggleMenu.collapse
+        .bg-dark.p-4
+          p.text-white Version 0.0.3
+      div Super Simple Ethereum wallet.
       .alert.alert-danger.alert-dismissible.fade.show(role='alert')
         p
           strong Warning/Disclaimer
