@@ -303,9 +303,8 @@ function hideDisabledFeatures() {
   }
   if (isWebView()) {
     $("#main-contents").hide();
+    $("#webview-warning").show();
     $("#browser-link").text(location.href);
-  } else {
-    $("#webview-warning").hide();
   }
 }
 
