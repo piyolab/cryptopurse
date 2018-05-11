@@ -301,8 +301,10 @@ function hideDisabledFeatures() {
   if (navigator.mediaDevices == undefined || navigator.mediaDevices.getUserMedia == undefined) {
     $("#to-address-read-from-camera").hide();
   }
+  
   if (isWebView()) {
     $("#main-contents").hide();
+    $('#navbarToggleButton').hide();
     $("#webview-warning").show();
     $("#browser-link").text(location.href);
   }
