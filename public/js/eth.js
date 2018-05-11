@@ -92,8 +92,6 @@ function createTx(nonce, to, gasPrice, gasLimit, value) {
 		chainId: chainId
 	}
 	const tx = new EthTx(txParams);
-	console.log(txParams);
-	console.log(tx);
 	return tx;
 }
 
