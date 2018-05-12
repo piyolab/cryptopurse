@@ -12,10 +12,10 @@ const HTTP_PROVIDERS = [
 	'',
 	'https://ropsten.infura.io'
 ];
-const ETHERSCAN_TX_URLS = [
-	'https://etherscan.io/tx/',
+const ETHERSCAN_URLS = [
+	'https://etherscan.io/',
 	'',
-	'https://ropsten.etherscan.io/tx/'
+	'https://ropsten.etherscan.io/'
 ]
 var chainId = 1;
 
@@ -251,8 +251,8 @@ function registerCallbacks() {
 	$('#send-eth-btn').on('click', function() {
 		$('#send-eth-confirm-modal').modal('toggle');
 		sendEther(function(result) {
-			const baseUrl = ETHERSCAN_TX_URLS[chainId-1];
-			const url = baseUrl + result;
+			const baseUrl = ETHERSCAN_URLS[chainId-1];
+			const url = baseUrl + 'tx/' + result;
 			const e = $("<a></a>", {
   				href: url,
   				target: "_blank",
@@ -294,7 +294,10 @@ function registerCallbacks() {
     }
   });
 
-
+  const baseUrl = ETHERSCAN_URLS[chainId-1];
+  const address = wallet.getAddressString();
+  const url = baseUrl + 'address/' + address
+  $('#etherscan-link').attr('href', url);
 }
 
 function isChrome() {

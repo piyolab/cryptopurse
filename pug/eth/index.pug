@@ -81,6 +81,10 @@ html(lang='en')
               .input-group-append
                 span#basic-addon2.input-group-text(readonly='') ETH
             button#send-eth-to-confirm-btn.btn.btn-primary(type='button', data-toggle='modal', data-target='#send-eth-confirm-modal') Send Ether
+        .card.mb-3
+          .card-body
+            h5.card-title Transaction History
+            a#etherscan-link.btn.btn-outline-secondary.btn-block(target='_blank') Check tx history in EtherScan
       // Send Ether Confirmation Modal
       #send-eth-confirm-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='send-eth-confirm-modal-label', aria-hidden='true')
         .modal-dialog(role='document')
