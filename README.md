@@ -6,16 +6,12 @@ cryptopurse.app
 ```
 npm install pug-cli -g
 npm install browser-sync -g
+npm install gulp -g
 ```
 
-### Pug
+### Run
 ```
-pug pug -o public -P -w
-```
-
-### Browser sync
-```
-browser-sync start --server 'public'
+gulp
 ```
 
 ### Use testnet
