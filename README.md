@@ -9,22 +9,13 @@ npm install gulp-cli -g
 # Optional
 npm install pug-cli -g
 npm install browser-sync -g
+npm install gulp -g
 ```
 
 ### Gulp
 ```
 npm install
 gulp
-```
-
-### Pug
-```
-pug pug -o public -P -w
-```
-
-### Browser sync
-```
-browser-sync start --server 'public'
 ```
 
 ### Use testnet
