@@ -1,4 +1,4 @@
-const version = '0.0.6';
+const version = '0.0.7';
 const Wallet = ethereumjs.Wallet;
 const EthUtil = ethereumjs.Util;
 const EthTx = ethereumjs.Tx;
