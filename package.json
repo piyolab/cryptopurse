@@ -1,22 +1,19 @@
 {
-  "name": "cryptopurse",
-  "version": "0.0.6",
+  "name": "CryptoPurse",
+  "version": "0.0.7",
   "description": "The simplest wallet for crypto currencies.",
   "main": "gulpfile.js",
   "dependencies": {
     "browser-sync": "^2.24.4",
-    "gulp": "^3.9.1",
-    "gulp-notify": "^3.2.0",
     "gulp-plumber": "^1.2.0",
-    "mocha": "^5.1.1"
+    "gulp-notify": "^3.2.0",
+    "gulp": "^3.9.1"
   },
   "devDependencies": {
-    "git-rev": "^0.2.1",
-    "gulp-pug": "^4.0.1",
-    "gulp-replace": "^0.6.1"
+    "gulp-pug": "^4.0.1"
   },
   "scripts": {
-    "test": "./node_modules/.bin/mocha"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",

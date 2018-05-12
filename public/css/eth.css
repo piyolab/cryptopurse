@@ -1,6 +1,13 @@
 #commit-hash {
   font-size: 0.8em;
 }
+#package-description {
+  color: #444;
+  margin-left: 5px;
+}
+#package-name {
+  font-weight: bolder;
+}
 #reader-camera-preview {
   width: 100%;
 }

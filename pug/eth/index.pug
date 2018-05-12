@@ -28,9 +28,6 @@ html(lang='en')
       //- Toggle Menu
       #navbarToggleMenu.collapse
         .bg-dark.p-4
-          p.text-white
-            span#version
-            span#commit-hash (__git_commit_hash__)
           button.btn.btn-outline-danger.btn-sm.btn-block(type='button', data-toggle='modal', data-target='#export-wallet-modal') Export wallet
           button.btn.btn-outline-danger.btn-sm.btn-block(type='button', data-toggle='modal', data-target='#import-wallet-modal') Import wallet
       #main-contents
@@ -75,6 +72,18 @@ html(lang='en')
       include includes/send-result-modal.pug
 
     include includes/webview-warning.pug
+
+    footer.footer
+      .container
+        span#package-name __package_name__
+        span#package-description __package_description__
+        br
+        | Ver.
+        span#version __package_version__
+        | &nbsp;
+        span#commit-hash (__git_commit_hash__)
+        | &nbsp;
+        a(href="https://github.com/piyolab/cryptopurse") GitHub
 
     script(src='https://code.jquery.com/jquery-3.3.1.slim.min.js', integrity='sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo', crossorigin='anonymous')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js', integrity='sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49', crossorigin='anonymous')

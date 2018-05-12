@@ -1,4 +1,3 @@
-const version = '0.0.7';
 const Wallet = ethereumjs.Wallet;
 const EthUtil = ethereumjs.Util;
 const EthTx = ethereumjs.Tx;
@@ -377,7 +376,6 @@ function getHttpProvider(networkId) {
 }
 
 $(document).ready(function(){
-	$('#version').text('Version ' + version);
 	getUrlParams(function(params) {
 		processUrlParams(params);
 		initWeb3(getHttpProvider(params.network));

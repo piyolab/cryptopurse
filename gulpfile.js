@@ -5,6 +5,7 @@ var pug = require('gulp-pug');
 var browserSync = require("browser-sync");
 var replace = require('gulp-replace');
 var git = require('git-rev');
+var pkg = require('./package.json')
 
 //setting : paths
 var paths = {
@@ -30,6 +31,9 @@ gulp.task('pug', () => {
   return gulp.src([paths.pug + '**/*.pug', '!' + paths.pug + '**/includes/*.pug'])
     .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
     .pipe(pug(pugOptions))
+    .pipe(replace('__package_name__', pkg.name))
+    .pipe(replace('__package_version__', pkg.version))
+    .pipe(replace('__package_description__', pkg.description))
     .pipe(replace('__git_commit_hash__', gitCommitHash))
     .pipe(gulp.dest(paths.html));
 });
