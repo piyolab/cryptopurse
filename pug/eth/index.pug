@@ -30,6 +30,7 @@ html(lang='en')
         .bg-dark.p-4
           p.text-white
             span#version
+            span#commit-hash (__git_commit_hash__)
           button.btn.btn-outline-danger.btn-sm.btn-block(type='button', data-toggle='modal', data-target='#export-wallet-modal') Export wallet
           button.btn.btn-outline-danger.btn-sm.btn-block(type='button', data-toggle='modal', data-target='#import-wallet-modal') Import wallet
       #main-contents

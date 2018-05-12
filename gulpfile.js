@@ -3,6 +3,8 @@ var notify = require("gulp-notify");
 var plumber = require("gulp-plumber");
 var pug = require('gulp-pug');
 var browserSync = require("browser-sync");
+var replace = require('gulp-replace');
+var git = require('git-rev');
 
 //setting : paths
 var paths = {
@@ -17,11 +19,18 @@ var pugOptions = {
   pretty: true
 }
 
+var gitCommitHash = "(no commit hash)";
+git.short(function (str) {
+  gitCommitHash = str;
+})
+
+
 //Pug
 gulp.task('pug', () => {
   return gulp.src([paths.pug + '**/*.pug', '!' + paths.pug + '**/includes/*.pug'])
     .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
     .pipe(pug(pugOptions))
+    .pipe(replace('__git_commit_hash__', gitCommitHash))
     .pipe(gulp.dest(paths.html));
 });
 

@@ -11,7 +11,9 @@
     "mocha": "^5.1.1"
   },
   "devDependencies": {
-    "gulp-pug": "^4.0.1"
+    "git-rev": "^0.2.1",
+    "gulp-pug": "^4.0.1",
+    "gulp-replace": "^0.6.1"
   },
   "scripts": {
     "test": "./node_modules/.bin/mocha"
