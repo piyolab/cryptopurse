@@ -19,7 +19,7 @@ browser-sync start --server 'public'
 ```
 
 ### Use testnet
-- add a following parameter
+- add the following parameter
 
 ```
 ?network=3
