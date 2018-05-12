@@ -1,0 +1,25 @@
+#import-wallet-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='import-wallet-modal-label', aria-hidden='true')
+  .modal-dialog(role='document')
+    .modal-content
+      .modal-header
+        h5#import-wallet-modal-label.modal-title
+          p Import a private key
+      .modal-body
+        p Warning: Your existing wallet will be deleted right after you import a private key.
+      .modal-footer
+        button.btn.btn-secondary(type='button', data-dismiss='modal') CANCEL
+        button#import-wallet-btn.btn.btn-primary(type='button') Import a private key
+// Menu PrivateKey Input Modal
+#privatekey-input-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='privatekey-input-modal-label', aria-hidden='true')
+  .modal-dialog(role='document')
+    .modal-content
+      .modal-header
+        h5#privatekey-input-modal-label.modal-title
+          p Input a private key
+      .modal-body
+        p Please input your private key.
+        .form-group
+          input#privatekey-input.form-control(type='text')
+      .modal-footer
+        button.btn.btn-secondary(type='button', data-dismiss='modal') CANCEL
+        button#privatekey-input-btn.btn.btn-primary(type='button') Import a private key

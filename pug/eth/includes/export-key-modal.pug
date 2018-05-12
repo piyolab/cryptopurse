@@ -1,0 +1,25 @@
+#export-wallet-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='export-wallet-modal-label', aria-hidden='true')
+  .modal-dialog(role='document')
+    .modal-content
+      .modal-header
+        h5#export-wallet-modal-label.modal-title
+          p Export a private key
+      .modal-body
+        p Please keep your private key in a safe place.
+      .modal-footer
+        button.btn.btn-secondary(type='button', data-dismiss='modal') CANCEL
+        button#export-wallet-btn.btn.btn-primary(type='button') Export a private key
+// Menu PrivateKey Output Modal
+#privatekey-output-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='privatekey-output-modal-label', aria-hidden='true')
+  .modal-dialog(role='document')
+    .modal-content
+      .modal-header
+        h5#privatekey-output-modal-label.modal-title
+          p Your private key
+      .modal-body
+        p Please keep your private key in a safe place.
+        .form-group
+          input#privatekey-output.form-control(type='text', readonly)
+        button#privatekey-output-copy-btn.btn.btn-primary.btn-block(type='button') Copy
+      .modal-footer
+        button.btn.btn-primary(type='button', data-dismiss='modal') OK

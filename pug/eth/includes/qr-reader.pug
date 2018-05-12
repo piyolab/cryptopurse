@@ -1,0 +1,11 @@
+#qrcode-reader-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='qrcode-reader-modal-label', aria-hidden='true')
+  .modal-dialog(role='document')
+    .modal-content
+      .modal-header
+        h5#qrcode-reader-modal-label.modal-title
+          | Read QR Code
+      .modal-body
+        #reader-loading-message 🎥 Unable to access video stream (please make sure you have a webcam enabled)
+        canvas#reader-camera-preview(hidden='')
+      .modal-footer
+        button.btn.btn-secondary(type='button', data-dismiss='modal') DISMISS

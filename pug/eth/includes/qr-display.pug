@@ -1,0 +1,13 @@
+#qrcode-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='qrcode-modal-label', aria-hidden='true')
+  .modal-dialog(role='document')
+    .modal-content
+      .modal-header
+        h5#qrcode-modal-label.modal-title
+          | My Purse QR Code
+      .modal-body
+        center
+          span#qrcode-modal-msg(style='font-family: monospace;')
+        center
+          #qrcode
+      .modal-footer
+        button.btn.btn-secondary(type='button', data-dismiss='modal') DISMISS
