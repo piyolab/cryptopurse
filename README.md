@@ -18,7 +18,7 @@ npm install
 gulp
 ```
 
-### Use testnet
+### Use testnet (Ropsten)
 - add the following parameter
 
 ```
