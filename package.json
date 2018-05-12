@@ -1,0 +1,31 @@
+{
+  "name": "cryptopurse",
+  "version": "0.0.6",
+  "description": "The simplest wallet for crypto currencies.",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "browser-sync": "^2.24.4",
+    "gulp": "^3.9.1",
+    "gulp-notify": "^3.2.0",
+    "gulp-plumber": "^1.2.0",
+    "mocha": "^5.1.1"
+  },
+  "devDependencies": {
+    "gulp-pug": "^4.0.1"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/piyolab/cryptopurse.git"
+  },
+  "keywords": [
+    "ethereum"
+  ],
+  "author": "hm0429",
+  "bugs": {
+    "url": "https://github.com/piyolab/cryptopurse/issues"
+  },
+  "homepage": "https://github.com/piyolab/cryptopurse#readme"
+}

@@ -1,4 +1,6 @@
 language: node_js
+node_js:
+- node
 deploy:
   provider: firebase
   token:
@@ -12,4 +14,3 @@ EqjrsuircBVXnipVtvqriEJZuPdX4ZjJ8BCvTjTyaf198a6gxQ+uLR6P+9MN4tt6J9W9aNW9JVk1uKCn
 953LAEKwakvV1BHd4+1HtRQ3UO1BmwKg0QFkJDAGjTTJNRdMXp5D9fE94JT9CxXHXo6T54tepktOEqGH\
 79eP8Xm5z7v3dhZOpdem8Dl+r5y9RufSp7Fa5TwvOTRVRRts8sEC26Q="
   project: "cryptopurse-staging"
-  

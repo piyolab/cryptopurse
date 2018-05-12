@@ -4,13 +4,17 @@ cryptopurse.app
 ## Development
 ### Tools installation
 ```
+npm install gulp-cli -g
+
+# Optional
 npm install pug-cli -g
 npm install browser-sync -g
 npm install gulp -g
 ```
 
-### Run
+### Gulp
 ```
+npm install
 gulp
 ```
 
