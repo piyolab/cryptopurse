@@ -3,3 +3,10 @@ nav.navbar.navbar-dark.bg-primary
   //- Toggle Menu button
   button#navbarToggleButton.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarToggleMenu', aria-controls='navbarToggleMenu', aria-expanded='false', aria-label='Toggle navigation')
     span.navbar-toggler-icon
+//- Toggle Menu
+#navbarToggleMenu.collapse.bg-primary
+  ul.nav.justify-content-end
+    li.nav-item
+      a.nav-link(href='#', data-toggle='modal', data-target='#import-wallet-modal') Import
+    li.nav-item
+      a.nav-link(href='#', data-toggle='modal', data-target='#export-wallet-modal') Export

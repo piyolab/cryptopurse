@@ -5,6 +5,9 @@
   height: 32px;
   width: 32px;
 }
+#navbarToggleMenu a {
+  color: white;
+}
 #package-description {
   color: #444;
   margin-left: 5px;

@@ -25,11 +25,6 @@ html(lang='en')
   body
     include includes/navbar.pug
     .container
-      //- Toggle Menu
-      #navbarToggleMenu.collapse
-        .bg-dark.p-4
-          button.btn.btn-outline-danger.btn-sm.btn-block(type='button', data-toggle='modal', data-target='#export-wallet-modal') Export wallet
-          button.btn.btn-outline-danger.btn-sm.btn-block(type='button', data-toggle='modal', data-target='#import-wallet-modal') Import wallet
       #main-contents
         div Super Simple Ethereum wallet.
         include includes/disclaimer.pug

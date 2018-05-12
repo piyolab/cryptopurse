@@ -64,7 +64,7 @@ function showMyBalance() {
 		if (error) {
 			alert(ALERT_MESSAGE);
 		} else {
-			$('#my-address-balance').text(web3.fromWei(result, 'ether'));			
+			$('#my-address-balance').text(web3.fromWei(result, 'ether'));
 		}
 	});
 }
@@ -149,7 +149,7 @@ function updateSendEthModalContent() {
 	} else {
 		$('#send-eth-btn').show();
 		title = "Are you sure?";
-		msg = "You are about to send " + 
+		msg = "You are about to send " +
 				$('#to-amount').val() +
 				" ETH to " +
 				$('#to-address').val();
@@ -195,7 +195,7 @@ function exportWallet() {
 function importWallet() {
 	$('#import-wallet-modal').modal('toggle');
 	$('#privatekey-input-modal').modal('toggle');
-}	
+}
 
 function importPrivateKey() {
 	const privateKey = $('#privatekey-input').val();
@@ -210,7 +210,7 @@ function importPrivateKey() {
 		console.error(error);
 		alert(error);
 	}
-	
+
 }
 
 function registerCallbacks() {
@@ -387,4 +387,3 @@ $(document).ready(function(){
   hideDisabledFeatures();
   $('[data-toggle="tooltip"]').tooltip()
 });
-
