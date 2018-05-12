@@ -28,11 +28,7 @@ html(lang='en')
         display: none;
       }
   body
-    nav.navbar.navbar-dark.bg-primary
-      a.navbar-brand(href='#') Ethereum Purse
-      //- Toggle Menu button
-      button#navbarToggleButton.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarToggleMenu', aria-controls='navbarToggleMenu', aria-expanded='false', aria-label='Toggle navigation')
-        span.navbar-toggler-icon
+    include includes/navbar.pug
     .container
       //- Toggle Menu
       #navbarToggleMenu.collapse
@@ -43,16 +39,7 @@ html(lang='en')
           button.btn.btn-outline-danger.btn-sm.btn-block(type='button', data-toggle='modal', data-target='#import-wallet-modal') Import wallet
       #main-contents
         div Super Simple Ethereum wallet.
-        .alert.alert-danger.alert-dismissible.fade.show(role='alert')
-          p
-            strong Warning/Disclaimer
-          p Don't put a large amount of Ether. Treat this wallet as your small pocket purse.
-          p
-            | We do not keep your private key. Your private key is stored in your browser's local storage.
-          p If your browser's local storage is deleted, your wallet won't be accessible.
-          p We are not responsible for any loss.
-          button.close(type='button', data-dismiss='alert', aria-label='Close')
-            span(aria-hidden='true') ×
+        include includes/disclaimer.pug
         .card.mb-3
           .card-body
             h5.card-title My Purse (Ethereum Wallet)
@@ -85,113 +72,17 @@ html(lang='en')
           .card-body
             h5.card-title Transaction History
             a#etherscan-link.btn.btn-outline-secondary.btn-block(target='_blank') Check tx history in EtherScan
-      // Send Ether Confirmation Modal
-      #send-eth-confirm-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='send-eth-confirm-modal-label', aria-hidden='true')
-        .modal-dialog(role='document')
-          .modal-content
-            .modal-header
-              h5#send-eth-confirm-modal-label.modal-title
-                span#send-eth-confirm-modal-title
-            .modal-body
-              span#send-eth-confirm-modal-msg
-            .modal-footer
-              button.btn.btn-secondary(type='button', data-dismiss='modal') CANCEL
-              button#send-eth-btn.btn.btn-primary(type='button') Send Ether
-      // QR
-      #qrcode-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='qrcode-modal-label', aria-hidden='true')
-        .modal-dialog(role='document')
-          .modal-content
-            .modal-header
-              h5#qrcode-modal-label.modal-title
-                | My Purse QR Code
-            .modal-body
-              center
-                span#qrcode-modal-msg(style='font-family: monospace;')
-              center
-                #qrcode
-            .modal-footer
-              button.btn.btn-secondary(type='button', data-dismiss='modal') DISMISS
-      // RESULT
-      #tx-result-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='tx-result-modal-label', aria-hidden='true')
-        .modal-dialog(role='document')
-          .modal-content
-            .modal-header
-              h5#tx-result-modal-label.modal-title
-                | Transaction Result
-            .modal-body
-              center
-                span#tx-result-modal-msg
-            .modal-footer
-              button.btn.btn-secondary(type='button', data-dismiss='modal') DISMISS
-      // Reader QR
-      #qrcode-reader-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='qrcode-reader-modal-label', aria-hidden='true')
-        .modal-dialog(role='document')
-          .modal-content
-            .modal-header
-              h5#qrcode-reader-modal-label.modal-title
-                | Read QR Code
-            .modal-body
-              #reader-loading-message 🎥 Unable to access video stream (please make sure you have a webcam enabled)
-              canvas#reader-camera-preview(hidden='')
-            .modal-footer
-              button.btn.btn-secondary(type='button', data-dismiss='modal') DISMISS
-      // Menu Export Wallet Modal
-      #export-wallet-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='export-wallet-modal-label', aria-hidden='true')
-        .modal-dialog(role='document')
-          .modal-content
-            .modal-header
-              h5#export-wallet-modal-label.modal-title
-                p Export a private key
-            .modal-body
-              p Please keep your private key in a safe place.
-            .modal-footer
-              button.btn.btn-secondary(type='button', data-dismiss='modal') CANCEL
-              button#export-wallet-btn.btn.btn-primary(type='button') Export a private key
-      // Menu PrivateKey Output Modal
-      #privatekey-output-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='privatekey-output-modal-label', aria-hidden='true')
-        .modal-dialog(role='document')
-          .modal-content
-            .modal-header
-              h5#privatekey-output-modal-label.modal-title
-                p Your private key
-            .modal-body
-              p Please keep your private key in a safe place.
-              .form-group
-                input#privatekey-output.form-control(type='text', readonly)
-              button#privatekey-output-copy-btn.btn.btn-primary.btn-block(type='button') Copy
-            .modal-footer
-              button.btn.btn-primary(type='button', data-dismiss='modal') OK
-    #webview-warning
-      .container
-        p Please open CryptoPurse.app in browser.
-        p
-          a(id="browser-link", href="#") URL Place holder
-    // Menu Export Wallet Modal
-    #import-wallet-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='import-wallet-modal-label', aria-hidden='true')
-      .modal-dialog(role='document')
-        .modal-content
-          .modal-header
-            h5#import-wallet-modal-label.modal-title
-              p Import a private key
-          .modal-body
-            p Warning: Your existing wallet will be deleted right after you import a private key.
-          .modal-footer
-            button.btn.btn-secondary(type='button', data-dismiss='modal') CANCEL
-            button#import-wallet-btn.btn.btn-primary(type='button') Import a private key
-    // Menu PrivateKey Input Modal
-    #privatekey-input-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='privatekey-input-modal-label', aria-hidden='true')
-      .modal-dialog(role='document')
-        .modal-content
-          .modal-header
-            h5#privatekey-input-modal-label.modal-title
-              p Input a private key
-          .modal-body
-            p Please input your private key.
-            .form-group
-              input#privatekey-input.form-control(type='text')
-          .modal-footer
-            button.btn.btn-secondary(type='button', data-dismiss='modal') CANCEL
-            button#privatekey-input-btn.btn.btn-primary(type='button') Import a private key
+
+      // Modals
+      include includes/qr-display.pug
+      include includes/qr-reader.pug
+      include includes/import-key-modal.pug
+      include includes/export-key-modal.pug
+      include includes/send-confirm-modal.pug
+      include includes/send-result-modal.pug
+
+    include includes/webview-warning.pug
+
     link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css', integrity='sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB', crossorigin='anonymous')
     script(src='https://code.jquery.com/jquery-3.3.1.slim.min.js', integrity='sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo', crossorigin='anonymous')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js', integrity='sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49', crossorigin='anonymous')
