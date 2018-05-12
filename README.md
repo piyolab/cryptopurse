@@ -17,3 +17,10 @@ pug pug -o public -P -w
 ```
 browser-sync start --server 'public'
 ```
+
+### Use testnet
+- add a following parameter
+
+```
+?network=3
+```
