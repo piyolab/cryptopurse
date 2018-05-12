@@ -1,3 +1,8 @@
 language: node_js
 node_js:
-  - node
+- node
+deploy:
+  provider: firebase
+  token:
+    secure: "Fkmkws7YRnzIItSJHdtteF6pFlDW8EGBVVorRoDDwTduXpQXy0Esklg9ElBG0rRyu18UaqKUNrFUbEtc7HqCruTKkT+v8mQTyNqNAEUNq/G063eBnok0WBhvVAAEsQBhfVt2FqWUWuZzXpD1ISsMGEqBDZZ62+TmOmsMSOkNzrqeqw8kWlU0RjXVI9+BbvpUU5o4SlnnPZYQKWsxRoJZf6UWsfXumar+9kyCbCeWBrq7GiH72V69rcwrbfBFkeq3abSZD8Dbvvwcp5E4qpoHhxNsLmO6hyNvGuE4s4HAmfCWvINFdJK8z0FUshPINBlJAmEgVrMDkNAMPFgp1XLALE6DPM5T3851Q+H/prPJyzQ9l+vl+1cyv44yR5NkmCJcyxHI5giAjhp5a7+0wvkD2Wj6doWG5c3pxoZ9aVWqNn1y+My8f5qMkSSzjS+PHINchUSDTjLNqUsLpt7X4ZSgMbBR0dxoeTR1tpf3vDDMmNpls1iWBb2ZhjmQpa4gvRw77b3jrn3sSXXIRkokoSXvzPGu58hdlE+pRJeY/zf6MgWG+KKR235ifipCWFf1h8VcPtLLKuYkvI7nAKFrqpvestA1N78+I8aH+N9SXdhJ0eH60rj3G8pFSI+W+zpLNgkTEfkAus9K9F+axKz+xJxMTf6KWlx6A7CUEEV+pJ+qIok="
+    project: "cryptopurse-staging"
