@@ -297,20 +297,43 @@ function registerCallbacks() {
 
 }
 
+function isChrome() {
+	const userAgent = window.navigator.userAgent.toLowerCase();
+	chrome = /crios/.test(userAgent);
+	if (chrome) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
 function isWebView() {
+
+	if (isChrome()) {
+		return false;
+	}
+
   var standalone = window.navigator.standalone,
     userAgent = window.navigator.userAgent.toLowerCase(),
     safari = /safari/.test( userAgent ),
     ios = /iphone|ipod|ipad/.test( userAgent );
-  if (ios && !standalone && !safari) {
-    return true
+  if ((ios && !standalone && !safari) || (ios && !isCameraAvailable()) ) {
+    return true;
   } else {
-    return false
+    return false;
   }
 }
 
+function isCameraAvailable() {
+	if (navigator.mediaDevices == undefined || navigator.mediaDevices.getUserMedia == undefined) {
+		return false;
+	} else {
+		return true;
+	}
+}
+
 function hideDisabledFeatures() {
-  if (navigator.mediaDevices == undefined || navigator.mediaDevices.getUserMedia == undefined) {
+  if (!isCameraAvailable()) {
     $("#to-address-read-from-camera").hide();
   }
 
