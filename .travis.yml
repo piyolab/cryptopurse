@@ -1,3 +1,4 @@
+language: javascript
 deploy:
   provider: firebase
   token:
