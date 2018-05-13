@@ -5,8 +5,10 @@ nav.navbar.navbar-dark.bg-primary
     span.navbar-toggler-icon
 //- Toggle Menu
 #navbarToggleMenu.collapse.bg-dark.p-4
-  .card.mb-3.bg-dark.border-danger
-    .card-body.text-danger
-      h5.card-title Danger Zone
-      button.btn.btn-outline-danger.btn-sm.btn-block(type='button', data-toggle='modal', data-target='#export-wallet-modal') Export wallet
-      button.btn.btn-outline-danger.btn-sm.btn-block(type='button', data-toggle='modal', data-target='#import-wallet-modal') Import wallet
+  button.btn.btn-danger.btn-sm.btn-block(type='button', data-toggle='collapse', data-target='#denger-menu') Show denger menu
+  #denger-menu.collapse
+    .card.mb-3.bg-dark.border-danger.mt-4
+      .card-body.text-white
+        h6.card-title Danger Zone
+        button.btn.btn-danger.btn-sm.btn-block(type='button', data-toggle='modal', data-target='#export-wallet-modal') Export wallet
+        button.btn.btn-danger.btn-sm.btn-block(type='button', data-toggle='modal', data-target='#import-wallet-modal') Import wallet
