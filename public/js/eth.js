@@ -217,7 +217,7 @@ function registerCallbacks() {
   if (wallet == null) {
     $('#create-wallet-btn').on('click', function() {
       generateWallet();
-      location.href = location.href;
+      window.location.reload();
     });
     return;
   }
@@ -343,23 +343,22 @@ function isCameraAvailable() {
 }
 
 function showUI() {
-
   if (isWebView()) {
     $("#webview-warning").show();
     $("#browser-link").text(location.href);    
-  } else if (wallet != null) {
-    $("#main-contents").show();
-    $('#navbarToggleButton').show();
-  } else {
+  } else if (wallet == null) {
     $('#create-wallet').show();
   }
-
   hideDisabledFeatures();
 }
 
 function hideDisabledFeatures() {
   if (!isCameraAvailable()) {
     $("#to-address-read-from-camera").hide();
+  }
+  if (wallet == null || isWebView()) {
+    $("#main-contents").hide();
+    $('#navbarToggleButton').hide();
   }
 }
 
