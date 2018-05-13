@@ -1,3 +1,12 @@
+
+#main-contents {
+  display: none;
+}
+
+#navbarToggleButton {
+  display: none;
+}
+
 #commit-hash {
   font-size: 0.8em;
 }
@@ -19,5 +28,8 @@
   width: 100%;
 }
 #webview-warning {
+  display: none;
+}
+#create-wallet {
   display: none;
 }
