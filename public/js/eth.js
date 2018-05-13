@@ -43,14 +43,14 @@ function generateWallet() {
 	saveWalletInfo(wallet);
 }
 
-function recoverWallet() {
+function recoverWallet(callback) {
 	const privateKey = localStorage.getItem(KEY_ETH_PRIVATE_KEY);
 	if (privateKey == null || privateKey == "") {
-		generateWallet();
 	} else {
 		const privateKeyBuffer = EthUtil.toBuffer(privateKey);
 		wallet = Wallet.fromPrivateKey(privateKeyBuffer);
 	}
+  callback();
 }
 
 function showMyAddress() {
@@ -214,6 +214,14 @@ function importPrivateKey() {
 }
 
 function registerCallbacks() {
+  if (wallet == null) {
+    $('#create-wallet-btn').on('click', function() {
+      generateWallet();
+      window.location.reload();
+    });
+    return;
+  }
+
 	$('#my-address-balance-reload-btn').on('click', function() {
 		showMyBalance();
 	});
@@ -334,16 +342,23 @@ function isCameraAvailable() {
 	}
 }
 
+function showUI() {
+  if (isWebView()) {
+    $("#webview-warning").show();
+    $("#browser-link").text(location.href);    
+  } else if (wallet == null) {
+    $('#create-wallet').show();
+  }
+  hideDisabledFeatures();
+}
+
 function hideDisabledFeatures() {
   if (!isCameraAvailable()) {
     $("#to-address-read-from-camera").hide();
   }
-
-  if (isWebView()) {
+  if (wallet == null || isWebView()) {
     $("#main-contents").hide();
     $('#navbarToggleButton').hide();
-    $("#webview-warning").show();
-    $("#browser-link").text(location.href);
   }
 }
 
@@ -376,14 +391,17 @@ function getHttpProvider(networkId) {
 }
 
 $(document).ready(function(){
-	getUrlParams(function(params) {
-		processUrlParams(params);
-		initWeb3(getHttpProvider(params.network));
-	});
-	recoverWallet();
-	showMyAddress();
-	registerCallbacks();
-	showMyBalance();
-  hideDisabledFeatures();
-  $('[data-toggle="tooltip"]').tooltip()
+	recoverWallet(function() {
+    if (wallet) {
+      getUrlParams(function(params) {
+        processUrlParams(params);
+        initWeb3(getHttpProvider(params.network));
+      });
+      showMyAddress();
+      showMyBalance();
+      $('[data-toggle="tooltip"]').tooltip()
+    }
+  });
+  registerCallbacks();
+  showUI();
 });
