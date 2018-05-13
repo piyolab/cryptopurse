@@ -4,9 +4,11 @@ nav.navbar.navbar-dark.bg-primary
   button#navbarToggleButton.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarToggleMenu', aria-controls='navbarToggleMenu', aria-expanded='false', aria-label='Toggle navigation')
     span.navbar-toggler-icon
 //- Toggle Menu
-#navbarToggleMenu.collapse.bg-primary
-  ul.nav.justify-content-end
-    li.nav-item
-      a.nav-link(href='#', data-toggle='modal', data-target='#import-wallet-modal') Import
-    li.nav-item
-      a.nav-link(href='#', data-toggle='modal', data-target='#export-wallet-modal') Export
+#navbarToggleMenu.collapse.bg-dark.p-4
+  button.btn.btn-danger.btn-sm.btn-block(type='button', data-toggle='collapse', data-target='#danger-menu') Show danger zone
+  #danger-menu.collapse
+    .card.mb-3.bg-dark.border-danger.mt-4
+      .card-body.text-white
+        h6.card-title Danger Zone
+        button.btn.btn-danger.btn-sm.btn-block(type='button', data-toggle='modal', data-target='#export-wallet-modal') Export wallet
+        button.btn.btn-danger.btn-sm.btn-block(type='button', data-toggle='modal', data-target='#import-wallet-modal') Import wallet
