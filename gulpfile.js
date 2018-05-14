@@ -6,6 +6,7 @@ var browserSync = require("browser-sync");
 var replace = require('gulp-replace');
 var git = require('git-rev');
 var pkg = require('./package.json')
+var typescript = require('gulp-typescript');
 
 //setting : paths
 var paths = {
@@ -53,9 +54,20 @@ gulp.task('reload', () => {
   browserSync.reload();
 });
 
+//TypeScript
+gulp.task('ts', () => {
+  var ethOptions =  {
+     out: 'ether-tools.js'
+  };
+  gulp.src(['./ts/eth/*.ts', '!./node_modules/**'])
+    .pipe(typescript(ethOptions))
+    .pipe(gulp.dest(paths.js));
+ });
+
 //watch
 gulp.task('watch', function () {
   gulp.watch([paths.pug + '**/*.pug', '!' + paths.pug + '**/_*.pug'], ['pug']);
+  gulp.watch(['./ts/eth/*.ts'], ['ts']);
 });
 
-gulp.task('default', ['browser-sync', 'watch']);
+gulp.task('default', ['pug', 'ts', 'browser-sync', 'watch']);
