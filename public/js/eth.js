@@ -82,7 +82,9 @@ function showMyBalance() {
 		if (error) {
 			alert(ALERT_MESSAGE);
 		} else {
-			$('#my-address-balance').text(web3.fromWei(result, 'ether'));
+      let etherBalance = web3.fromWei(result, 'ether');
+    etherBalance = etherBalance.toFormat(6, web3.BigNumber.ROUND_DOWN);
+			$('#my-address-balance').text(etherBalance);
 		}
 	});
 }
