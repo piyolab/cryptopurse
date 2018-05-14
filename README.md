@@ -24,3 +24,12 @@ gulp
 ```
 ?network=3
 ```
+
+## Deployment
+
+### Production
+
+```
+firebase use default
+firebase deploy
+```
