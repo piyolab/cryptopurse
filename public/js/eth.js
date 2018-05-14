@@ -25,7 +25,25 @@ var wallet = null;
 var video = document.createElement("video");
 var canvasElement = document.getElementById("reader-camera-preview");
 var canvas = canvasElement.getContext("2d");
-var readingQRCode = false;
+var loadingMessageLabel = $("#reader-loading-message");
+
+var qrCodeReader = new QRCodeReader(jsQR, video, canvas);
+qrCodeReader.onPreview = function(video) {
+	loadingMessageLabel.hide();
+	canvasElement.hidden = false;
+
+	canvasElement.height = video.videoHeight;
+	canvasElement.width = video.videoWidth;
+	canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
+};
+qrCodeReader.onData = function(data) {
+	if (web3.isAddress(data)) {
+		$('#qrcode-reader-modal').modal('hide');
+		$("#to-address").val(data);
+	} else {
+		console.error("Invalid data: " + data);
+	}
+}
 
 function initWeb3(httpProvider) {
 	web3 = new Web3(new Web3.providers.HttpProvider(httpProvider));
@@ -158,34 +176,6 @@ function updateSendEthModalContent() {
 	$('#send-eth-confirm-modal-msg').text(msg);
 }
 
-function tick() {
-  loadingMessageLabel = $("#reader-loading-message")
-  loadingMessageLabel.text("⌛ Loading video...");
-  if (video.readyState === video.HAVE_ENOUGH_DATA) {
-    loadingMessageLabel.hide();
-    canvasElement.hidden = false;
-
-    canvasElement.height = video.videoHeight;
-    canvasElement.width = video.videoWidth;
-    canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
-
-    var imageData = canvas.getImageData(0, 0, canvasElement.width, canvasElement.height);
-    var code = jsQR(imageData.data, imageData.width, imageData.height);
-    if (code != null && readingQRCode) {
-      if (web3.isAddress(code.data)) {
-        $('#qrcode-reader-modal').modal('hide');
-        $("#to-address").val(code.data);
-      } else {
-        console.error("Invalid data: " + code.data);
-      }
-
-    }
-  }
-  if (readingQRCode) {
-    requestAnimationFrame(tick);
-  }
-}
-
 function exportWallet() {
 	$('#privatekey-output').val(wallet.getPrivateKeyString());
 	$('#export-wallet-modal').modal('toggle');
@@ -283,22 +273,15 @@ function registerCallbacks() {
 	});
 
   $('#qrcode-reader-modal').on('show.bs.modal', function() {
-    navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }).then(function(stream) {
-      video.srcObject = stream;
-      video.setAttribute("playsinline", true); // required to tell iOS safari we don't want fullscreen
-      video.play();
-      readingQRCode = true;
-      requestAnimationFrame(tick);
-    }).catch(function(e) {
-      $("#reader-loading-message").text("🙅‍♀️" + e.name);
-    });
+		qrCodeReader.start(function() {
+			loadingMessageLabel.text("⌛ Loading video...");
+		}, function(error) {
+			$("#reader-loading-message").text("🙅‍♀️" + error.name);
+		})
   });
 
   $('#qrcode-reader-modal').on('hide.bs.modal', function (e) {
-    if (video.srcObject != null) {
-      readingQRCode = false;
-      video.srcObject.getTracks()[0].stop();
-    }
+    qrCodeReader.stop()
   });
 
   const baseUrl = ETHERSCAN_URLS[chainId-1];
