@@ -6,8 +6,10 @@ class QRCodeReader {
   public onPreview: (video: any) => void
   public onData: (data: string) => void
   private isStarted: boolean = false;
+  public jsQR: (data: any, width: number, height: number) => any
 
-  constructor(video: any, canvas: any) {
+  constructor(jsQR: any, video: any, canvas: any) {
+    this.jsQR = jsQR
     this.video = video
     this.canvas = canvas
   }
@@ -44,7 +46,7 @@ class QRCodeReader {
       this.onPreview(this.video)
 
       var imageData = this.canvas.getImageData(0, 0, this.video.videoHeight, this.video.videoWidth);
-      var code = jsQR(imageData.data, imageData.width, imageData.height);
+      var code = this.jsQR(imageData.data, imageData.width, imageData.height);
       if (code != null && this.readingQRCode) {
         this.onData(code.data)
       }

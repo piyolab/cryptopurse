@@ -27,7 +27,7 @@ var canvasElement = document.getElementById("reader-camera-preview");
 var canvas = canvasElement.getContext("2d");
 var loadingMessageLabel = $("#reader-loading-message");
 
-var qrCodeReader = new QRCodeReader(video, canvas);
+var qrCodeReader = new QRCodeReader(jsQR, video, canvas);
 qrCodeReader.onPreview = function(video) {
 	loadingMessageLabel.hide();
 	canvasElement.hidden = false;
