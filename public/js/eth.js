@@ -223,9 +223,10 @@ function registerCallbacks() {
 		showMyBalance();
 	});
 
-	$('#my-address-copy-btn').on('click', function() {
+	$('#my-address-copy-btn').on('click', function(e) {
 		const fromAddress = Purse.wallet.getAddressString();
 		Clipboard.copy(fromAddress);
+    showSnackbar('Copied!');
 	});
 
 	$('#my-address-qr-btn').on('click', function() {
@@ -246,6 +247,7 @@ function registerCallbacks() {
 	$('#privatekey-output-copy-btn').on('click', function() {
 		$('#privatekey-output').select();
 		Clipboard.copyOnModal(Purse.wallet.getPrivateKeyString(), $('#privatekey-output-modal').get(0));
+    showSnackbar('Copied!');
 	});
 
 	$('#send-eth-to-confirm-btn').on('click', function() {
@@ -378,6 +380,17 @@ function getHttpProvider(networkId) {
 	if(networkId != null && networkId <= CONSTANTS.HTTP_PROVIDERS.length)
 		httpProvider = CONSTANTS.HTTP_PROVIDERS[networkId-1];
 	return httpProvider;
+}
+
+function showSnackbar(text) {
+  $('<div>', {
+    id: 'snackbar',
+    text: text
+  }).appendTo('body');
+  $('#snackbar').addClass('show');
+  setTimeout(function(){
+    $('#snackbar').remove();
+  }, 1000);
 }
 
 $(document).ready(function(){
