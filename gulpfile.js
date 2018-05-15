@@ -21,14 +21,18 @@ var pugOptions = {
   pretty: true
 }
 
-var gitCommitHash = "(no commit hash)";
-git.short(function (str) {
-  gitCommitHash = str;
-})
 
+// Pre task
+var gitCommitHash = "(no commit hash)";
+gulp.task('pretask', (done) => {
+  git.short(function (str) {
+    gitCommitHash = str;
+    done();
+  });
+});
 
 //Pug
-gulp.task('pug', () => {
+gulp.task('pug', ['pretask'], () => {
   return gulp.src([paths.pug + '**/*.pug', '!' + paths.pug + '**/includes/*.pug'])
     .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
     .pipe(pug(pugOptions))
