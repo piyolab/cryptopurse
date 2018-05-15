@@ -1,66 +1,16 @@
 doctype html
 html(lang='en')
   head
-    // Global site tag (gtag.js) - Google Analytics
-    script(async, src='https://www.googletagmanager.com/gtag/js?id=UA-118763672-1')
-    script.
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'UA-118763672-1');
-    meta(charset='utf-8')
-    meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
-    script.
-      if(!/iP(hone|(o|a)d)/.test(navigator.userAgent)){
-        document.write('<link rel="manifest" href="manifest.json"/>');
-      };
-    link(rel='apple-touch-icon', href='/images/icons/icon-152x152.png')
-    link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css', integrity='sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB', crossorigin='anonymous')
-    link(rel='stylesheet', href='../css/eth.css')
-    title Ethereum - CryptoPurse.app
-    script(src='/vendor/ethereumjs-tx-1.3.3.min.js')
-    script(src='/vendor/ethereumjs-wallet-0.6.0.min.js')
-    script(src='/vendor/web3.min.js')
-    script(src='/vendor/jsQR.js')
-    script(src='/vendor/qrcode.min.js')
-    script(src='/vendor/Clipboard.js')
-    script(src='/js/ether-tools.js')
+    include includes/head.pug
   body
     include includes/navbar.pug
     .container
       #main-contents
         include includes/disclaimer.pug
-        .card.mt-3.mb-3
-          .card-body
-            h5.card-title My Purse (Ethereum Wallet)
-            h6.card-subtitle.mb-2.text-muted
-              | Balance: 
-              span#my-address-balance
-              |  ETH
-              button#my-address-balance-reload-btn.btn.btn-sm(type='button', style='border:0;background:none;')
-                  image(src='/images/ui/reload.png', width='14px', style='margin-bottom:4px;')
-              a#etherscan-link.btn.btn-sm.btn-outline-secondary.float-right(target='_blank') History
-            .input-group.mb-3
-              input#my-address.form-control(type='text', readonly='')
-              .input-group-append
-                button#my-address-copy-btn.btn.btn-outline-secondary(type='button')
-                  image(src='/images/ui/copy.png', width='18px', style='margin-bottom:2px;')
-                button#my-address-qr-btn.btn.btn-outline-secondary(type='button', data-toggle='modal', data-target='#qrcode-modal')
-                  image(src='/images/ui/qr_code.png', width='18px', style='margin-bottom:2px;')
-        .card.mb-3
-          .card-body
-            h5.card-title Send ETH
-            .input-group.mb-3
-              input#to-address.form-control(type='text', placeholder="Recipient's address")
-              #to-address-read-from-camera.input-group-append
-                button#to-address-qr-btn.btn.btn-outline-secondary(type='button', data-toggle='modal', data-target='#qrcode-reader-modal') 📷
-            .input-group.mb-3
-              input#to-amount.form-control(type='number', placeholder='0', min='0', step='0.001')
-              .input-group-append
-                span#basic-addon2.input-group-text(readonly='') ETH
-            button#send-eth-to-confirm-btn.btn.btn-primary(type='button', data-toggle='modal', data-target='#send-eth-confirm-modal') Send Ether
+        include includes/my-purse.pug
+        include includes/send-eth.pug
 
-      // Modals
+      //- Modals
       include includes/qr-display.pug
       include includes/qr-reader.pug
       include includes/import-key-modal.pug
@@ -70,25 +20,8 @@ html(lang='en')
 
     include includes/webview-warning.pug
     include includes/create-wallet.pug
+    include includes/footer.pug
 
-    footer.footer
-      .container
-        .row
-          .col-sm
-            span#package-name __package_name__
-            span#package-description __package_description__
-            br
-            | Ver.
-            span#version __package_version__
-            | &nbsp;
-            span#commit-hash (__git_commit_hash__)
-            | &nbsp;
-          .col-sm
-            a#github-link.float-right(href="https://github.com/piyolab/cryptopurse" target="_blank")
-              img(src="/images/icons/github-64px.png", alt="GitHub")
+    //- Import JavaScripts
+    include includes/footer-import.pug
 
-    script(src='https://code.jquery.com/jquery-3.3.1.slim.min.js', integrity='sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo', crossorigin='anonymous')
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js', integrity='sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49', crossorigin='anonymous')
-    script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js', integrity='sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T', crossorigin='anonymous')
-    script(src='/js/eth.js')
-    script(src='/js/main.js')

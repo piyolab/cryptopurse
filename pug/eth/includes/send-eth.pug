@@ -1,0 +1,12 @@
+.card.mb-3
+  .card-body
+    h5.card-title Send ETH
+    .input-group.mb-3
+      input#to-address.form-control(type='text', placeholder="Recipient's address")
+      #to-address-read-from-camera.input-group-append
+        button#to-address-qr-btn.btn.btn-outline-secondary(type='button', data-toggle='modal', data-target='#qrcode-reader-modal') 📷
+    .input-group.mb-3
+      input#to-amount.form-control(type='number', placeholder='0', min='0', step='0.001')
+      .input-group-append
+        span#basic-addon2.input-group-text(readonly='') ETH
+    button#send-eth-to-confirm-btn.btn.btn-primary(type='button', data-toggle='modal', data-target='#send-eth-confirm-modal') Send Ether

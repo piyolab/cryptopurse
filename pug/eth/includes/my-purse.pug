@@ -1,0 +1,17 @@
+.card.mt-3.mb-3
+  .card-body
+    h5.card-title My Purse (Ethereum Wallet)
+    h6.card-subtitle.mb-2.text-muted
+      | Balance: 
+      span#my-address-balance
+      |  ETH
+      button#my-address-balance-reload-btn.btn.btn-sm(type='button', style='border:0;background:none;')
+          image(src='/images/ui/reload.png', width='14px', style='margin-bottom:4px;')
+      a#etherscan-link.btn.btn-sm.btn-outline-secondary.float-right(target='_blank') History
+    .input-group.mb-3
+      input#my-address.form-control(type='text', readonly='')
+      .input-group-append
+        button#my-address-copy-btn.btn.btn-outline-secondary(type='button')
+          image(src='/images/ui/copy.png', width='18px', style='margin-bottom:2px;')
+        button#my-address-qr-btn.btn.btn-outline-secondary(type='button', data-toggle='modal', data-target='#qrcode-modal')
+          image(src='/images/ui/qr_code.png', width='18px', style='margin-bottom:2px;')
