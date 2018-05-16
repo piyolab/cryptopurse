@@ -430,7 +430,6 @@ function setupUI() {
   $('#etherscan-link').attr('href', url);
   showMyAddress();
   showMyBalance();
-  $('[data-toggle="tooltip"]').tooltip();
 }
 
 function showUI() {
