@@ -7,13 +7,17 @@ var replace = require('gulp-replace');
 var git = require('git-rev');
 var pkg = require('./package.json')
 var typescript = require('gulp-typescript');
+const webpackStream = require('webpack-stream');
+const webpack = require('webpack');
+const webpackConfig = require("./webpack.config");
 
 //setting : paths
 var paths = {
   'pug': './pug/',
   'html': './public/',
   'js': './public/js/',
-  'css': './public/css/'
+  'css': './public/css/',
+  'src': './src/'
 }
 
 //setting : Pug Options
@@ -74,4 +78,15 @@ gulp.task('watch', function () {
   gulp.watch(['./ts/eth/*.ts'], ['ts']);
 });
 
-gulp.task('default', ['pug', 'ts', 'browser-sync', 'watch']);
+gulp.task('webpack', () => {
+  gulp.watch(paths.src + "**/*.js", ['webpack-build']);
+});
+
+gulp.task('webpack-build', () => {
+  return webpackStream(webpackConfig, webpack)
+    .pipe(gulp.dest("./public/js/"));
+});
+
+
+
+gulp.task('default', ['pug', 'ts', 'browser-sync', 'watch', 'webpack']);
