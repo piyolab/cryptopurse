@@ -6,10 +6,11 @@ const Constants = {
   Keys: {
     KEY_ETH_ADDRESS: "KEY_ETH_ADDRESS",
     KEY_ETH_PRIVATE_KEY: "KEY_ETH_PRIVATE_KEY",
-    KEY_ETH_CREATED_AT: "KEY_ETH_CREATED_AT"
+    KEY_ETH_CREATED_AT: "KEY_ETH_CREATED_AT",
+    KEY_ETH_GAS_PRICE: "KEY_ETH_GAS_PRICE"
   },
   ETH_GAS_LIMIT: 21000,
-  ETH_GAS_PRICE: 20000000000,
+  ETH_DEFAULT_GAS_PRICE: 20000000000,
   HTTP_PROVIDERS: [
     'https://mainnet.infura.io',
     '',
@@ -134,6 +135,37 @@ function sendRawTx(rawTx, callback) {
 	});
 }
 
+function isValidGasPrice(wei) {
+  const gwei = Purse.web3.fromWei(wei, 'gwei');
+  if (!isNaN(gwei) && gwei >= 1 && gwei <= 99 ) {
+    return true;
+  }
+  return false;
+}
+
+function getGasPrice() {
+  let gasPrice = localStorage.getItem(Constants.Keys.KEY_ETH_GAS_PRICE);
+  if (!isValidGasPrice(gasPrice)) {
+    gasPrice = Constants.ETH_DEFAULT_GAS_PRICE;
+  }
+  return gasPrice;
+}
+
+function getGasPriceInGwei() {
+  return Purse.web3.fromWei(getGasPrice(), 'gwei');
+}
+
+function saveGasPrice(wei) {
+  if (isValidGasPrice(wei)) {
+    localStorage.setItem(Constants.Keys.KEY_ETH_GAS_PRICE, wei);
+  }
+}
+
+function saveGasPriceInGwei(gwei) {
+  const wei = Purse.web3.toWei(gwei, 'gwei');
+  saveGasPrice(wei);
+}
+
 function sendEther(callback) {
 	const fromAddress = Purse.wallet.getAddressString();
 	const toAddress = $('#to-address').val();
@@ -151,7 +183,7 @@ function sendEther(callback) {
 	}
 
 	getHexNonce(fromAddress, function(hexNonce) {
-		const hexGasPrice = Purse.web3.toHex(Constants.ETH_GAS_PRICE);
+		const hexGasPrice = Purse.web3.toHex(Constants.ETH_DEFAULT_GAS_PRICE);
 		const hexGasLimit = Purse.web3.toHex(Constants.ETH_GAS_LIMIT);
 		const hexWeiAmount = Purse.web3.toHex(weiAmount);
 		const tx = createTx(hexNonce, toAddress, hexGasPrice, hexGasLimit, hexWeiAmount);
@@ -316,6 +348,23 @@ function registerCallbacks() {
   $('#share-output-copy-btn').on('click', function(e) {
     Clipboard.copyOnModal($('#share-output').val(), $('#share-modal').get(0));
     showSnackbar('Copied!');
+  });
+
+  $('#adjust-gas-modal-btn').on('click', function(e) {
+    $('#gasprice-amount').val(getGasPriceInGwei());
+  });
+
+  $('#adjust-gas-reset-btn').on('click', function(e) {
+    saveGasPrice(Constants.ETH_DEFAULT_GAS_PRICE);
+    $('#gasprice-amount').val(getGasPriceInGwei());
+    showSnackbar('Saved!');
+  });
+
+  $('#adjust-gas-save-btn').on('click', function(e) {
+    let gwei = $('#gasprice-amount').val();
+    saveGasPriceInGwei(gwei);
+    $('#gasprice-amount').val(getGasPriceInGwei());
+    showSnackbar('Saved!');
   });
 
 }

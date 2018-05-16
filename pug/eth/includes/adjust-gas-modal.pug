@@ -1,0 +1,16 @@
+#adjust-gas-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='adjust-gas-modal-label', aria-hidden='true')
+  .modal-dialog(role='document')
+    .modal-content
+      .modal-header
+        h5#adjust-gas-modal-label.modal-title
+          p Adjust gas price
+      .modal-body
+        p Please set gas price. (min:1 max:99)
+        .input-group.mb-3
+          input#gasprice-amount.form-control(type='number', placeholder='0', min='1', max='99' step='1')
+          .input-group-append
+            span#basic-addon2.input-group-text(readonly='') Gwei
+        button#adjust-gas-reset-btn.btn.btn-secondary.btn-block(type='button') Reset to default
+        button#adjust-gas-save-btn.btn.btn-primary.btn-block(type='button') Save gas price
+      .modal-footer
+        button.btn.btn-secondary(type='button', data-dismiss='modal') DISMISS

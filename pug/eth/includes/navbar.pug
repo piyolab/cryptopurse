@@ -6,7 +6,13 @@ nav.navbar.navbar-dark.bg-primary
 //- Toggle Menu
 #navbarToggleMenu.collapse.bg-dark.p-4
   a.btn.btn-secondary.btn.btn-sm.btn-block(href='/' target='_blank') CryptoPurse.app TOP
-  button.btn.btn-danger.btn-sm.btn-block(type='button', data-toggle='collapse', data-target='#danger-menu') Show danger zone
+  button.btn.btn-secondary.btn-sm.btn-block.mt-2(type='button', data-toggle='collapse', data-target='#advanced-menu') Show advanced menu
+  #advanced-menu.collapse
+    .card.mb-3.bg-dark.border-white.mt-4
+      .card-body.text-white
+        h6.card-title Advanced Menu
+        button#adjust-gas-modal-btn.btn.btn-secondary.btn-sm.btn-block(type='button', data-toggle='modal', data-target='#adjust-gas-modal') Adjust Gas Price
+  button.btn.btn-danger.btn-sm.btn-block.mt-2(type='button', data-toggle='collapse', data-target='#danger-menu') Show danger zone
   #danger-menu.collapse
     .card.mb-3.bg-dark.border-danger.mt-4
       .card-body.text-white
