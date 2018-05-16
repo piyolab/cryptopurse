@@ -246,6 +246,116 @@ function importPrivateKey() {
 
 }
 
+function registerCallbacksAdjustGas() {
+  $('#adjust-gas-modal-btn').on('click', function(e) {
+    $('#gasprice-amount').val(getGasPriceInGwei());
+  });
+  $('#adjust-gas-reset-btn').on('click', function(e) {
+    saveGasPrice(Constants.ETH_DEFAULT_GAS_PRICE);
+    $('#gasprice-amount').val(getGasPriceInGwei());
+    showSnackbar('Saved!');
+  });
+  $('#adjust-gas-save-btn').on('click', function(e) {
+    let gwei = $('#gasprice-amount').val();
+    saveGasPriceInGwei(gwei);
+    $('#gasprice-amount').val(getGasPriceInGwei());
+    showSnackbar('Saved!');
+  });
+}
+
+function registerCallbacksSendEther() {
+  $('#to-address').on('focus', function() {
+    $(this).select();
+  })
+  $('#send-eth-to-confirm-btn').on('click', function() {
+    updateSendEthModalContent();
+  });
+  $('#send-eth-btn').on('click', function() {
+    $('#send-eth-confirm-modal').modal('toggle');
+    sendEther(function(result) {
+      const baseUrl = Constants.ETHERSCAN_URLS[Purse.chainId-1];
+      const url = baseUrl + 'tx/' + result;
+      const e = $("<a></a>", {
+          href: url,
+          target: "_blank",
+          text: "Check the tx in etherscan.io"
+      });
+      $('#tx-result-modal-msg').html(e);
+      $('#tx-result-modal').modal('toggle');
+    });
+  });
+}
+
+function registerCallbacksShare() {
+  $('#my-address-share-btn').on('click',function() {
+    showShareModal();
+  });
+  $('#share-amount').on('input', function (e) {
+    let ethValue = $('#share-amount').val();
+    if(!isNaN(ethValue)) {
+      $('#share-output').val(getShareUrl(ethValue));
+    }
+  });
+  $('#share-output-copy-btn').on('click', function(e) {
+    Clipboard.copyOnModal($('#share-output').val(), $('#share-modal').get(0));
+    showSnackbar('Copied!');
+  });
+}
+
+function registerCallbacksQrReader() {
+  $('#qrcode-reader-modal').on('show.bs.modal', function() {
+    qrCodeReader.start(function() {
+      loadingMessageLabel.text("⌛ Loading video...");
+    }, function(error) {
+      $("#reader-loading-message").text("🙅‍♀️" + error.name);
+    })
+  });
+  $('#qrcode-reader-modal').on('hide.bs.modal', function (e) {
+    qrCodeReader.stop()
+  });
+}
+
+function registerCallbacksExportWallet() {
+  $('#export-wallet-btn').on('click', function() {
+    exportWallet();
+  });
+  $('#privatekey-output').on('focus', function() {
+    $(this).select();
+  });
+  $('#privatekey-output-copy-btn').on('click', function() {
+    $('#privatekey-output').select();
+    Clipboard.copyOnModal(Purse.wallet.getPrivateKeyString(), $('#privatekey-output-modal').get(0));
+    showSnackbar('Copied!');
+  });
+}
+
+function registerCallbacksImportWallet() {
+  $('#import-wallet-btn').on('click', function() {
+    importWallet();
+  });
+  $('#privatekey-input-btn').on('click', function() {
+    importPrivateKey();
+  });
+}
+
+function registerCallbacksMyPurse() {
+  $('#my-address-balance-reload-btn').on('click', function() {
+    showMyBalance();
+  });
+  $('#my-address-copy-btn').on('click', function(e) {
+    const fromAddress = Purse.wallet.getAddressString();
+    Clipboard.copy(fromAddress);
+    showSnackbar('Copied!');
+  });
+  $('#my-address-qr-btn').on('click', function() {
+    const fromAddress = Purse.wallet.getAddressString();
+    $('#qrcode-modal-msg').text(fromAddress);
+    $('#qrcode').empty();
+    new QRCode(document.getElementById("qrcode"), fromAddress);
+  });
+}
+
+
 function registerCallbacks() {
   if (Purse.wallet == null) {
     $('#create-wallet-btn').on('click', function() {
@@ -254,119 +364,13 @@ function registerCallbacks() {
     });
     return;
   }
-
-	$('#my-address-balance-reload-btn').on('click', function() {
-		showMyBalance();
-	});
-
-	$('#my-address-copy-btn').on('click', function(e) {
-		const fromAddress = Purse.wallet.getAddressString();
-		Clipboard.copy(fromAddress);
-    showSnackbar('Copied!');
-	});
-
-	$('#my-address-qr-btn').on('click', function() {
-		const fromAddress = Purse.wallet.getAddressString();
-		$('#qrcode-modal-msg').text(fromAddress);
-		$('#qrcode').empty();
-		new QRCode(document.getElementById("qrcode"), fromAddress);
-	});
-
-	$('#to-address').on('focus', function() {
-		$(this).select();
-	})
-
-	$('#privatekey-output').on('focus', function() {
-		$(this).select();
-	});
-
-	$('#privatekey-output-copy-btn').on('click', function() {
-		$('#privatekey-output').select();
-		Clipboard.copyOnModal(Purse.wallet.getPrivateKeyString(), $('#privatekey-output-modal').get(0));
-    showSnackbar('Copied!');
-	});
-
-	$('#send-eth-to-confirm-btn').on('click', function() {
-		updateSendEthModalContent();
-	});
-
-	$('#send-eth-btn').on('click', function() {
-		$('#send-eth-confirm-modal').modal('toggle');
-		sendEther(function(result) {
-			const baseUrl = Constants.ETHERSCAN_URLS[Purse.chainId-1];
-			const url = baseUrl + 'tx/' + result;
-			const e = $("<a></a>", {
-  				href: url,
-  				target: "_blank",
-  				text: "Check the tx in etherscan.io"
-			});
-			$('#tx-result-modal-msg').html(e);
-			$('#tx-result-modal').modal('toggle');
-		});
-	});
-
-	$('#export-wallet-btn').on('click', function() {
-		exportWallet();
-	});
-
-	$('#import-wallet-btn').on('click', function() {
-		importWallet();
-	});
-
-	$('#privatekey-input-btn').on('click', function() {
-		importPrivateKey();
-	});
-
-  $('#qrcode-reader-modal').on('show.bs.modal', function() {
-		qrCodeReader.start(function() {
-			loadingMessageLabel.text("⌛ Loading video...");
-		}, function(error) {
-			$("#reader-loading-message").text("🙅‍♀️" + error.name);
-		})
-  });
-
-  $('#qrcode-reader-modal').on('hide.bs.modal', function (e) {
-    qrCodeReader.stop()
-  });
-
-  const baseUrl = Constants.ETHERSCAN_URLS[Purse.chainId-1];
-  const address = Purse.wallet.getAddressString();
-  const url = baseUrl + 'address/' + address
-  $('#etherscan-link').attr('href', url);
-
-  $('#my-address-share-btn').on('click',function() {
-    showShareModal();
-  });
-
-  $('#share-amount').on('input', function (e) {
-    let ethValue = $('#share-amount').val();
-    if(!isNaN(ethValue)) {
-      $('#share-output').val(getShareUrl(ethValue));
-    }
-  });
-
-  $('#share-output-copy-btn').on('click', function(e) {
-    Clipboard.copyOnModal($('#share-output').val(), $('#share-modal').get(0));
-    showSnackbar('Copied!');
-  });
-
-  $('#adjust-gas-modal-btn').on('click', function(e) {
-    $('#gasprice-amount').val(getGasPriceInGwei());
-  });
-
-  $('#adjust-gas-reset-btn').on('click', function(e) {
-    saveGasPrice(Constants.ETH_DEFAULT_GAS_PRICE);
-    $('#gasprice-amount').val(getGasPriceInGwei());
-    showSnackbar('Saved!');
-  });
-
-  $('#adjust-gas-save-btn').on('click', function(e) {
-    let gwei = $('#gasprice-amount').val();
-    saveGasPriceInGwei(gwei);
-    $('#gasprice-amount').val(getGasPriceInGwei());
-    showSnackbar('Saved!');
-  });
-
+  registerCallbacksMyPurse();
+  registerCallbacksSendEther();
+  registerCallbacksQrReader();
+  registerCallbacksExportWallet();
+  registerCallbacksImportWallet();
+  registerCallbacksShare();
+  registerCallbacksAdjustGas();
 }
 
 function getShareUrl(ethValue) {
@@ -417,6 +421,16 @@ function isCameraAvailable() {
 	} else {
 		return true;
 	}
+}
+
+function setupUI() {
+  const baseUrl = Constants.ETHERSCAN_URLS[Purse.chainId-1];
+  const address = Purse.wallet.getAddressString();
+  const url = baseUrl + 'address/' + address
+  $('#etherscan-link').attr('href', url);
+  showMyAddress();
+  showMyBalance();
+  $('[data-toggle="tooltip"]').tooltip();
 }
 
 function showUI() {
@@ -485,9 +499,7 @@ $(document).ready(function(){
         processUrlParams(params);
         initWeb3(getHttpProvider(params.network));
       });
-      showMyAddress();
-      showMyBalance();
-      $('[data-toggle="tooltip"]').tooltip()
+      setupUI();
     }
   });
   registerCallbacks();
