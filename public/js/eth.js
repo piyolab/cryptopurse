@@ -2,9 +2,11 @@ const Wallet = ethereumjs.Wallet;
 const EthUtil = ethereumjs.Util;
 const EthTx = ethereumjs.Tx;
 
-const CONSTANTS = {
-  KEY_ETH_ADDRESS: "KEY_ETH_ADDRESS",
-  KEY_ETH_PRIVATE_KEY: "KEY_ETH_PRIVATE_KEY",
+const Constants = {
+  Keys: {
+    KEY_ETH_ADDRESS: "KEY_ETH_ADDRESS",
+    KEY_ETH_PRIVATE_KEY: "KEY_ETH_PRIVATE_KEY",
+  },
   ETH_GAS_LIMIT: 21000,
   ETH_GAS_PRICE: 20000000000,
   HTTP_PROVIDERS: [
@@ -57,8 +59,8 @@ function initWeb3(httpProvider) {
 function saveWalletInfo(wallet) {
 	const address = wallet.getAddressString();
 	const privateKey = wallet.getPrivateKeyString();
-	localStorage.setItem(CONSTANTS.KEY_ETH_ADDRESS, address);
-	localStorage.setItem(CONSTANTS.KEY_ETH_PRIVATE_KEY, privateKey);
+	localStorage.setItem(Constants.Keys.KEY_ETH_ADDRESS, address);
+	localStorage.setItem(Constants.Keys.KEY_ETH_PRIVATE_KEY, privateKey);
 }
 
 function generateWallet() {
@@ -67,7 +69,7 @@ function generateWallet() {
 }
 
 function recoverWallet(callback) {
-	const privateKey = localStorage.getItem(CONSTANTS.KEY_ETH_PRIVATE_KEY);
+	const privateKey = localStorage.getItem(Constants.Keys.KEY_ETH_PRIVATE_KEY);
 	if (privateKey == null || privateKey == "") {
 	} else {
 		const privateKeyBuffer = EthUtil.toBuffer(privateKey);
@@ -147,8 +149,8 @@ function sendEther(callback) {
 	}
 
 	getHexNonce(fromAddress, function(hexNonce) {
-		const hexGasPrice = Purse.web3.toHex(CONSTANTS.ETH_GAS_PRICE);
-		const hexGasLimit = Purse.web3.toHex(CONSTANTS.ETH_GAS_LIMIT);
+		const hexGasPrice = Purse.web3.toHex(Constants.ETH_GAS_PRICE);
+		const hexGasLimit = Purse.web3.toHex(Constants.ETH_GAS_LIMIT);
 		const hexWeiAmount = Purse.web3.toHex(weiAmount);
 		const tx = createTx(hexNonce, toAddress, hexGasPrice, hexGasLimit, hexWeiAmount);
 		tx.sign(EthUtil.toBuffer(Purse.wallet.getPrivateKeyString()));
@@ -257,7 +259,7 @@ function registerCallbacks() {
 	$('#send-eth-btn').on('click', function() {
 		$('#send-eth-confirm-modal').modal('toggle');
 		sendEther(function(result) {
-			const baseUrl = CONSTANTS.ETHERSCAN_URLS[Purse.chainId-1];
+			const baseUrl = Constants.ETHERSCAN_URLS[Purse.chainId-1];
 			const url = baseUrl + 'tx/' + result;
 			const e = $("<a></a>", {
   				href: url,
@@ -293,7 +295,7 @@ function registerCallbacks() {
     qrCodeReader.stop()
   });
 
-  const baseUrl = CONSTANTS.ETHERSCAN_URLS[Purse.chainId-1];
+  const baseUrl = Constants.ETHERSCAN_URLS[Purse.chainId-1];
   const address = Purse.wallet.getAddressString();
   const url = baseUrl + 'address/' + address
   $('#etherscan-link').attr('href', url);
@@ -376,9 +378,9 @@ function processUrlParams(params) {
 }
 
 function getHttpProvider(networkId) {
-	var httpProvider = CONSTANTS.HTTP_PROVIDERS[0];
-	if(networkId != null && networkId <= CONSTANTS.HTTP_PROVIDERS.length)
-		httpProvider = CONSTANTS.HTTP_PROVIDERS[networkId-1];
+	var httpProvider = Constants.HTTP_PROVIDERS[0];
+	if(networkId != null && networkId <= Constants.HTTP_PROVIDERS.length)
+		httpProvider = Constants.HTTP_PROVIDERS[networkId-1];
 	return httpProvider;
 }
 
