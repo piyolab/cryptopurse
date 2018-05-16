@@ -6,6 +6,7 @@ const Constants = {
   Keys: {
     KEY_ETH_ADDRESS: "KEY_ETH_ADDRESS",
     KEY_ETH_PRIVATE_KEY: "KEY_ETH_PRIVATE_KEY",
+    KEY_ETH_CREATED_AT: "KEY_ETH_CREATED_AT"
   },
   ETH_GAS_LIMIT: 21000,
   ETH_GAS_PRICE: 20000000000,
@@ -61,6 +62,7 @@ function saveWalletInfo(wallet) {
 	const privateKey = wallet.getPrivateKeyString();
 	localStorage.setItem(Constants.Keys.KEY_ETH_ADDRESS, address);
 	localStorage.setItem(Constants.Keys.KEY_ETH_PRIVATE_KEY, privateKey);
+  localStorage.setItem(Constants.Keys.KEY_ETH_CREATED_AT, Math.floor(Date.now()/1000));
 }
 
 function generateWallet() {
