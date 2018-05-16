@@ -1,6 +1,6 @@
 {
   "name": "CryptoPurse",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "The simplest wallet for crypto currencies.",
   "main": "gulpfile.js",
   "dependencies": {
