@@ -1,0 +1,18 @@
+#share-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='share-modal-label', aria-hidden='true')
+  .modal-dialog(role='document')
+    .modal-content
+      .modal-header
+        h5#share-modal-label.modal-title
+          | Share my address
+      .modal-body
+        p Copy and share this link to receive Ether into your address.
+        p You can also specify what amount you want receive.
+        .input-group.mb-3
+          input#share-amount.form-control(type='number', placeholder='0', min='0', step='0.001')
+          .input-group-append
+            span#basic-addon2.input-group-text(readonly='') ETH
+        .form-group
+          textarea#share-output.form-control(rows='3' readonly)
+          button#share-output-copy-btn.btn.btn-primary.btn-block(type='button') Copy share link
+      .modal-footer
+        button.btn.btn-secondary(type='button', data-dismiss='modal') DISMISS

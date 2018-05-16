@@ -301,7 +301,39 @@ function registerCallbacks() {
   const address = Purse.wallet.getAddressString();
   const url = baseUrl + 'address/' + address
   $('#etherscan-link').attr('href', url);
+
+  $('#my-address-share-btn').on('click',function() {
+    showShareModal();
+  });
+
+  $('#share-amount').on('input', function (e) {
+    let ethValue = $('#share-amount').val();
+    if(!isNaN(ethValue)) {
+      $('#share-output').val(getShareUrl(ethValue));
+    }
+  });
+
+  $('#share-output-copy-btn').on('click', function(e) {
+    Clipboard.copyOnModal($('#share-output').val(), $('#share-modal').get(0));
+    showSnackbar('Copied!');
+  });
+
 }
+
+function getShareUrl(ethValue) {
+  const baseUrl = 'https://cryptopurse.app/eth/';
+  let url = baseUrl + '?to=' + Purse.wallet.getAddressString();
+  if (ethValue > 0 && ethValue != null) {
+    url = url + '&value=' + ethValue;
+  }
+  return url;
+}
+
+function showShareModal() {
+  $('#share-output').val(getShareUrl(0));
+  $('#share-modal').modal('toggle');
+}
+
 
 function isChrome() {
 	const userAgent = window.navigator.userAgent.toLowerCase();
