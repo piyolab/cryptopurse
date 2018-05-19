@@ -15,7 +15,9 @@
     "gulp-pug": "^4.0.1",
     "gulp-replace": "^0.6.1",
     "gulp-typescript": "^4.0.2",
-    "typescript": "^2.8.3"
+    "typescript": "^2.8.3",
+    "webpack": "^4.8.3",
+    "webpack-stream": "^4.0.3"
   },
   "scripts": {
     "test": "./node_modules/.bin/mocha"
