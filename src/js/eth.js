@@ -1,3 +1,7 @@
+import i18next from 'i18next';
+import LngDetector from 'i18next-browser-languagedetector';
+import i18nBackend from 'i18next-xhr-backend';
+
 const Wallet = ethereumjs.Wallet;
 const EthUtil = ethereumjs.Util;
 const EthTx = ethereumjs.Tx;
@@ -30,6 +34,23 @@ let Purse = {
 }
 
 const ALERT_MESSAGE = "Something Wrong ><..."
+
+
+function initLang() {
+  i18next
+  .use(LngDetector)
+  .use(i18nBackend)
+  .init({
+    backend: {
+      // for all available options read the backend's repository readme file
+      loadPath: '/locales/{{lng}}/{{ns}}.json'
+    }
+  }, function(err, t) {
+    // initialized and ready to go!
+    $('#to-address').val(i18next.t('key'));
+  });
+}
+
 
 var video = document.createElement("video");
 var canvasElement = document.getElementById("reader-camera-preview");
@@ -492,12 +513,14 @@ function showSnackbar(text) {
 }
 
 $(document).ready(function(){
+  initLang();
+  var params = {};
+  getUrlParams(function(params) {
+    processUrlParams(params);
+  });
 	recoverWallet(function() {
     if (Purse.wallet) {
-      getUrlParams(function(params) {
-        processUrlParams(params);
-        initWeb3(getHttpProvider(params.network));
-      });
+      initWeb3(getHttpProvider(params.network));
       setupUI();
     }
   });

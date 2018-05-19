@@ -9,6 +9,7 @@
     "gulp-plumber": "^1.2.0",
     "i18next": "^11.3.2",
     "i18next-browser-languagedetector": "^2.2.0",
+    "i18next-xhr-backend": "^1.5.1",
     "jquery-i18next": "^1.2.1",
     "mocha": "^5.1.1"
   },
