@@ -45,8 +45,8 @@ class QRCodeReader {
       }
       this.onPreview(this.video)
 
-      var imageData = this.canvas.getImageData(0, 0, this.video.videoHeight, this.video.videoWidth);
-      var code = this.jsQR(imageData.data, imageData.width, imageData.height);
+      const imageData = this.canvas.getImageData(0, 0, this.video.videoHeight, this.video.videoWidth);
+      const code = this.jsQR(imageData.data, imageData.width, imageData.height);
       if (code != null && this.readingQRCode) {
         this.onData(code.data)
       }
