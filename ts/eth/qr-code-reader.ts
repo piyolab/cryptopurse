@@ -18,14 +18,14 @@ class QRCodeReader {
   public start = (onStarted: () => void, onError: (error) => void) => {
     this.onStarted = onStarted
     const this_ = this
-    navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }).then(function(stream) {
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }).then((stream) => {
       this_.video.srcObject = stream;
       this_.video.setAttribute("playsinline", true); // required to tell iOS safari we don't want fullscreen
       this_.video.play();
       this_.readingQRCode = true;
       this_.isStarted = false;
       requestAnimationFrame(this_.tick);
-    }).catch(function(e) {
+    }).catch((e) => {
       onError(e)
     });
   }
