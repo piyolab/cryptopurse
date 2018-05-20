@@ -1,12 +1,13 @@
 class QRCodeReader {
+  public onPreview: (video: any) => void
+  public onData: (data: string) => void
+  public jsQR: (data: any, width: number, height: number) => any
+
   private readingQRCode: boolean = false;
   private video: any
   private canvas: any
   private onStarted: () => void
-  public onPreview: (video: any) => void
-  public onData: (data: string) => void
   private isStarted: boolean = false;
-  public jsQR: (data: any, width: number, height: number) => any
 
   constructor(jsQR: any, video: any, canvas: any) {
     this.jsQR = jsQR
