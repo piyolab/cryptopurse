@@ -26,7 +26,6 @@ class QRCodeReader {
       this_.isStarted = false;
       requestAnimationFrame(this_.tick);
     }).catch(function(e) {
-      console.error(e.stack)
       onError(e)
     });
   }
