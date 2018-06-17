@@ -5,16 +5,15 @@ var QRCodeReader = /** @class */ (function () {
         this.isStarted = false;
         this.start = function (onStarted, onError) {
             _this.onStarted = onStarted;
-            var this_ = _this;
+            var thisInstance = _this;
             navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }).then(function (stream) {
-                this_.video.srcObject = stream;
-                this_.video.setAttribute("playsinline", true); // required to tell iOS safari we don't want fullscreen
-                this_.video.play();
-                this_.readingQRCode = true;
-                this_.isStarted = false;
-                requestAnimationFrame(this_.tick);
+                thisInstance.video.srcObject = stream;
+                thisInstance.video.setAttribute("playsinline", true); // required to tell iOS safari we don't want fullscreen
+                thisInstance.video.play();
+                thisInstance.readingQRCode = true;
+                thisInstance.isStarted = false;
+                requestAnimationFrame(thisInstance.tick);
             })["catch"](function (e) {
-                console.error(e.stack);
                 onError(e);
             });
         };
