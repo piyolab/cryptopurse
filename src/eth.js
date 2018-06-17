@@ -7,7 +7,8 @@ const Constants = {
     KEY_ETH_ADDRESS: "KEY_ETH_ADDRESS",
     KEY_ETH_PRIVATE_KEY: "KEY_ETH_PRIVATE_KEY",
     KEY_ETH_CREATED_AT: "KEY_ETH_CREATED_AT",
-    KEY_ETH_GAS_PRICE: "KEY_ETH_GAS_PRICE"
+    KEY_ETH_GAS_PRICE: "KEY_ETH_GAS_PRICE",
+    KEY_ETH_TOKENS: "KEY_ETH_TOKENS"
   },
   ETH_GAS_LIMIT: 21000,
   ETH_DEFAULT_GAS_PRICE: 20000000000,
@@ -28,6 +29,8 @@ let Purse = {
   wallet: null,
   chainId: 1
 }
+
+const tokenABI = [{"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"symbol","type":"string"}],"type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"}],"name":"balanceOf","outputs":[{"name":"balance","type":"uint256"}],"type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"name":"","type":"uint8"}],"type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[{"name":"","type":"bool"}],"type":"function"}];
 
 const ALERT_MESSAGE = "Something Wrong ><..."
 
@@ -355,6 +358,41 @@ function registerCallbacksMyPurse() {
   });
 }
 
+function registerCallbacksAddERC20Token() {
+  $('#erc20-token-address').change(function() {
+    const tokenAddress = $('#erc20-token-address').val();
+    console.log(tokenAddress);
+    let contract = Purse.web3.eth.contract(tokenABI).at(tokenAddress);
+    contract.symbol((error, symbol) => {
+      if (error == null) {
+        console.log(symbol);
+        $('#erc20-token-symbol').val(symbol);
+      }
+    });
+  });
+
+  $('#add-erc20-token-save-btn').on('click', function() {
+    const tokenAddress = $('#erc20-token-address').val();
+    const symbol = $('#erc20-token-symbol').val();
+    if (tokenAddress != "" && symbol != "") {
+      saveToken(tokenAddress, symbol);
+      $('#add-erc20-token-modal').modal('toggle');
+    }
+  });
+
+}
+
+function saveToken(tokenAddress, symbol) {
+  const data = {"TOKEN_ADDRESS":tokenAddress, "TOKEN_SYMBOL":symbol}
+  let tokens = localStorage.getItem(Constants.Keys.KEY_ETH_TOKENS);
+  if (tokens == null || tokens == "") {
+    tokens = [data];
+  } else {
+    tokens = JSON.parse(tokens);
+    tokens.push(data);
+  }
+  localStorage.setItem(Constants.Keys.KEY_ETH_TOKENS, JSON.stringify(tokens));
+}
 
 function registerCallbacks() {
   if (Purse.wallet == null) {
@@ -371,6 +409,7 @@ function registerCallbacks() {
   registerCallbacksImportWallet();
   registerCallbacksShare();
   registerCallbacksAdjustGas();
+  registerCallbacksAddERC20Token();
 }
 
 function getShareUrl(ethValue) {
