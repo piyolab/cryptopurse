@@ -123,13 +123,14 @@ function showERC20TokensBalances() {
     tokens = JSON.parse(tokens);
     $('#token-balances').show();
   }
+  $('#token-balances-list').empty();
   for (let token of tokens) {
     getERC20TokenBlance(address, token.address, (error, balance) => {
       if (error) return;
       $('<h6/>', {
         class: 'card-subtitle mb-2 text-muted', 
         html: '> ' + balance + ' ' + token.symbol
-      }).appendTo('#token-balances');
+      }).appendTo('#token-balances-list');
     });
   }
 
