@@ -102,6 +102,39 @@ function showMyBalance() {
 	});
 }
 
+function getERC20TokenBlance(walletAddress, tokenAddress, callback) {
+  let contract = Purse.web3.eth.contract(tokenABI).at(tokenAddress);
+  contract.balanceOf(walletAddress, (error, balance) => {
+  contract.decimals((error, decimals) => {
+    balance = balance.div(10**decimals);
+    console.log(balance.toString());
+    callback(error, balance);
+  });
+});
+}
+
+function showERC20TokensBalances() {
+  const address = Purse.wallet.getAddressString();
+  let tokens = localStorage.getItem(Constants.Keys.KEY_ETH_TOKENS);
+  if (tokens == null || tokens == "") {
+    // no tokens
+    return;
+  } else {
+    tokens = JSON.parse(tokens);
+    $('#token-balances').show();
+  }
+  for (let token of tokens) {
+    getERC20TokenBlance(address, token.address, (error, balance) => {
+      if (error) return;
+      $('<h6/>', {
+        class: 'card-subtitle mb-2 text-muted', 
+        html: '> ' + balance + ' ' + token.symbol
+      }).appendTo('#token-balances');
+    });
+  }
+
+}
+
 function getHexNonce(address, callback) {
 	Purse.web3.eth.getTransactionCount(address, function(error, result){
 		if (error) {
@@ -242,6 +275,7 @@ function importPrivateKey() {
 		showMyAddress();
 		$('#privatekey-input-modal').modal('toggle');
 		showMyBalance();
+    showERC20TokensBalances();
 	} catch (error) {
 		console.error(error);
 		alert(error);
@@ -344,6 +378,7 @@ function registerCallbacksImportWallet() {
 function registerCallbacksMyPurse() {
   $('#my-address-balance-reload-btn').on('click', function() {
     showMyBalance();
+    showERC20TokensBalances();
   });
   $('#my-address-copy-btn').on('click', function(e) {
     const fromAddress = Purse.wallet.getAddressString();
@@ -383,7 +418,7 @@ function registerCallbacksAddERC20Token() {
 }
 
 function saveToken(tokenAddress, symbol) {
-  const data = {"TOKEN_ADDRESS":tokenAddress, "TOKEN_SYMBOL":symbol}
+  const data = {"address":tokenAddress, "symbol":symbol}
   let tokens = localStorage.getItem(Constants.Keys.KEY_ETH_TOKENS);
   if (tokens == null || tokens == "") {
     tokens = [data];
@@ -469,6 +504,7 @@ function setupUI() {
   $('#etherscan-link').attr('href', url);
   showMyAddress();
   showMyBalance();
+  showERC20TokensBalances();
 }
 
 function showUI() {
