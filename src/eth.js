@@ -286,6 +286,11 @@ function registerCallbacksSendEther() {
   });
 }
 
+function updateShareModalQrcode(urlStr) {
+  $('#share-modal-qrcode').empty();
+  new QRCode(document.getElementById("share-modal-qrcode"), urlStr);
+}
+
 function registerCallbacksShare() {
   $('#my-address-share-btn').on('click',function() {
     showShareModal();
@@ -293,7 +298,9 @@ function registerCallbacksShare() {
   $('#share-amount').on('input', function (e) {
     let ethValue = $('#share-amount').val();
     if(!isNaN(ethValue)) {
-      $('#share-output').val(getShareUrl(ethValue));
+      let url = getShareUrl(ethValue)
+      $('#share-output').val(url);
+      updateShareModalQrcode(url);
     }
   });
   $('#share-output-copy-btn').on('click', function(e) {
@@ -383,7 +390,9 @@ function getShareUrl(ethValue) {
 }
 
 function showShareModal() {
-  $('#share-output').val(getShareUrl(0));
+  let url = getShareUrl(0)
+  $('#share-output').val(url);
+  updateShareModalQrcode(url);
   $('#share-modal').modal('toggle');
 }
 
